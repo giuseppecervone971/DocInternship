@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex appunti"] 1625478395 "appunti.aux" "appunti.bbl" "appunti" 1625478399
+["bibtex doc"] 1625491572 "doc.aux" "doc.bbl" "doc" 1625491579
   "/Users/hugo/references/references.bib" 0 -1 0 ""
   "/usr/share/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1617738065 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "appunti.aux" 1625478399 2198 2eaf2cc26dc8fa72c810862fe7d40a20 "pdflatex"
+  "doc.aux" 1625491578 4999 d0081a1704d998defbdb178a9535e3b0 "pdflatex"
   (generated)
-  "appunti.bbl"
-  "appunti.blg"
-["pdflatex"] 1625478395 "appunti.tex" "appunti.pdf" "appunti" 1625478399
+  "doc.bbl"
+  "doc.blg"
+["pdflatex"] 1625491572 "doc.tex" "doc.pdf" "doc" 1625491579
   "/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc" 1617738065 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1617738065 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm" 1617738065 1616 371d1ee60c04b008c8fd760060cd34f1 ""
@@ -121,13 +121,13 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1621789271 5045527 a0ef06d06af438d62994481e52c2af5f ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1621789241 2812682 98b17c901976c961f2e716f9817d3594 ""
   "0.0.1.png" 1625478365 271332 a47a1c4074089e3013e6aa8b1fa6e2b9 ""
-  "appunti.aux" 1625478399 2198 2eaf2cc26dc8fa72c810862fe7d40a20 "pdflatex"
-  "appunti.bbl" 0 -1 0 "bibtex appunti"
-  "appunti.out" 1625478398 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "appunti.tex" 1624370159 4711 f745f1e30ef14648596ed9861fa549c3 ""
+  "doc.aux" 1625491578 4999 d0081a1704d998defbdb178a9535e3b0 "pdflatex"
+  "doc.bbl" 0 -1 0 "bibtex doc"
+  "doc.out" 1625491577 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "doc.tex" 1625491558 6968 0c1abe9d29593de2dd158aa5a4df8b70 ""
   "pinout uart.png" 1624294526 68395 8ccb827ee79359fe3a7085e20dbfa2f1 ""
   (generated)
-  "appunti.out"
-  "appunti.aux"
-  "appunti.log"
-  "appunti.pdf"
+  "doc.pdf"
+  "doc.log"
+  "doc.aux"
+  "doc.out"

@@ -1,8 +1,8 @@
-PWD /home/peppo/Documents/University/20_TirocinioeTesi/Appunti
+PWD /home/peppo/Documents/University/20_TirocinioeTesi/Documentation
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT appunti.tex
-OUTPUT appunti.log
+INPUT doc.tex
+OUTPUT doc.log
 INPUT /usr/share/texmf-dist/tex/latex/koma-script/scrartcl.cls
 INPUT /usr/share/texmf-dist/tex/latex/koma-script/scrartcl.cls
 INPUT /usr/share/texmf-dist/tex/latex/koma-script/scrartcl.cls
@@ -744,10 +744,10 @@ INPUT /usr/share/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/palatino/pplr7t.tfm
-INPUT ./appunti.aux
-INPUT appunti.aux
-INPUT appunti.aux
-OUTPUT appunti.aux
+INPUT ./doc.aux
+INPUT doc.aux
+INPUT doc.aux
+OUTPUT doc.aux
 INPUT /usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -804,18 +804,18 @@ INPUT /usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 INPUT /usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 INPUT /usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 INPUT /usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
-INPUT ./appunti.out
-INPUT appunti.out
-INPUT ./appunti.out
-INPUT appunti.out
-INPUT ./appunti.out
-INPUT appunti.out
-INPUT ./appunti.out
-INPUT appunti.out
-INPUT ./appunti.out
-INPUT ./appunti.out
-OUTPUT appunti.out
-OUTPUT appunti.pdf
+INPUT ./doc.out
+INPUT doc.out
+INPUT ./doc.out
+INPUT doc.out
+INPUT ./doc.out
+INPUT doc.out
+INPUT ./doc.out
+INPUT doc.out
+INPUT ./doc.out
+INPUT ./doc.out
+OUTPUT doc.out
+OUTPUT doc.pdf
 INPUT /usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
 INPUT /usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
 INPUT /usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
@@ -875,11 +875,6 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/mathpazo/zplmr7t.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
-INPUT ./0.0.1.png
-INPUT ./0.0.1.png
-INPUT 0.0.1.png
-INPUT ./0.0.1.png
-INPUT ./0.0.1.png
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/ts1ppl.fd
@@ -900,9 +895,14 @@ INPUT ./pinout uart.png
 INPUT pinout uart.png
 INPUT ./pinout uart.png
 INPUT ./pinout uart.png
-INPUT appunti.aux
-INPUT ./appunti.out
-INPUT ./appunti.out
+INPUT ./0.0.1.png
+INPUT ./0.0.1.png
+INPUT 0.0.1.png
+INPUT ./0.0.1.png
+INPUT ./0.0.1.png
+INPUT doc.aux
+INPUT ./doc.out
+INPUT ./doc.out
 INPUT /usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb

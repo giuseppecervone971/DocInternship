@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2021.5.23)  5 JUL 2021 11:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2021.5.23)  5 JUL 2021 15:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**appunti.tex
-(./appunti.tex
+**doc.tex
+(./doc.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/share/texmf-dist/tex/latex/koma-script/scrartcl.cls
 Document Class: scrartcl 2021/03/17 v3.33 KOMA-Script document class (article)
@@ -492,8 +492,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 32.
  (/usr/share/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
-) (./appunti.aux)
-\openout1 = `appunti.aux'.
+) (./doc.aux)
+\openout1 = `doc.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
 LaTeX Font Info:    ... okay on input line 32.
@@ -585,9 +585,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 32.
 LaTeX Info: Redefining \pageref on input line 32.
 LaTeX Info: Redefining \nameref on input line 32.
- (./appunti.out) (./appunti.out)
+ (./doc.out) (./doc.out)
 \@outlinefile=\write3
-\openout3 = `appunti.out'.
+\openout3 = `doc.out'.
 
 Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           Using `bookmark' together with `hyperref' is recommended,
@@ -631,42 +631,52 @@ LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 3
  (/usr/share/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
-<0.0.1.png, id=5, 552.0625pt x 476.78125pt>
-File: 0.0.1.png Graphic file (type png)
-<use 0.0.1.png>
-Package pdftex.def Info: 0.0.1.png  used on input line 46.
-(pdftex.def)             Requested size: 552.06114pt x 476.78008pt.
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 53.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 43.
  (/usr/share/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 ) [1
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2 <./0.0.1.png>]
-<pinout uart.png, id=23, 551.81157pt x 428.35031pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (2.19705pt too wide) in paragraph at lines 83--84
+[]\OT1/ppl/m/n/10.95 Check that se-rial con-sole is dis-abled by re-mov-ing "con-sole=serial0,115200" (or "con-
+ []
+
+
+Overfull \hbox (24.10689pt too wide) in paragraph at lines 85--86
+\OT1/ppl/m/n/10.95 it can be dis-abled by us-ing the com-mands: sudo sys-tem-ctl stop serial-getty@ttyS0.service
+ []
+
+[2]
+<pinout uart.png, id=22, 551.81157pt x 428.35031pt>
 File: pinout uart.png Graphic file (type png)
 <use pinout uart.png>
-Package pdftex.def Info: pinout uart.png  used on input line 97.
+Package pdftex.def Info: pinout uart.png  used on input line 101.
 (pdftex.def)             Requested size: 551.81023pt x 428.34926pt.
+<0.0.1.png, id=23, 552.0625pt x 476.78125pt>
+File: 0.0.1.png Graphic file (type png)
+<use 0.0.1.png>
+Package pdftex.def Info: 0.0.1.png  used on input line 108.
+(pdftex.def)             Requested size: 552.06114pt x 476.78008pt.
 
-No file appunti.bbl.
-[3] [4 <./pinout uart.png (PNG copy)>] (./appunti.aux)
-Package rerunfilecheck Info: File `appunti.out' has not changed.
+No file doc.bbl.
+[3] [4 <./pinout uart.png (PNG copy)>] [5 <./0.0.1.png>] (./doc.aux)
+Package rerunfilecheck Info: File `doc.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 14929 strings out of 478994
- 247661 string characters out of 5864751
- 694574 words of memory out of 5000000
- 32189 multiletter control sequences out of 15000+600000
+ 14945 strings out of 478994
+ 247740 string characters out of 5864751
+ 696561 words of memory out of 5000000
+ 32197 multiletter control sequences out of 15000+600000
  415594 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 111i,7n,116p,10602b,411s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 111i,7n,116p,10598b,411s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on appunti.pdf (4 pages, 386221 bytes).
+Output written on doc.pdf (5 pages, 391024 bytes).
 PDF statistics:
- 62 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
- 10 named destinations out of 1000 (max. 500000)
- 35 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 95 PDF objects out of 1000 (max. 8388607)
+ 81 compressed objects within 1 object stream
+ 18 named destinations out of 1000 (max. 500000)
+ 91 words of extra memory for PDF output out of 10000 (max. 10000000)
 
