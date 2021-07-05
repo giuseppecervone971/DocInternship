@@ -11,7 +11,6 @@ ser = serial.Serial(
 
 f = open("log.txt","rb")
 
-ser.write(b'<<FILE START>>\n')
 line = f.readline
 while line:
     ser.write(line)

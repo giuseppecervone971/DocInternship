@@ -10,7 +10,6 @@ ser = serial.Serial(
         timeout = 1
         )
 
-filestart = '<<FILE START>>'
 eof = '<<EOF>>'
 
 f = open("log.txt", "w")
@@ -18,9 +17,8 @@ f = open("log.txt", "w")
 x = ser.readline()
 x = x.deecode()
 
-while x != eof and x != filestart:
-    if x != eof and x != filestart:
-        x = ser.readline()
-        x = x.decode()
-        f.write(x)
+while x != eof:
+    f.write(x)
+    x = ser.readline()
+    x = x.decode()
 f.close()
