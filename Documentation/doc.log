@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2021.5.23)  5 JUL 2021 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2021.5.23)  6 JUL 2021 10:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -648,32 +648,32 @@ Overfull \hbox (24.10689pt too wide) in paragraph at lines 85--86
  []
 
 [2]
-<pinout uart.png, id=22, 551.81157pt x 428.35031pt>
-File: pinout uart.png Graphic file (type png)
-<use pinout uart.png>
-Package pdftex.def Info: pinout uart.png  used on input line 101.
+<pinoutuart.png, id=22, 551.81157pt x 428.35031pt>
+File: pinoutuart.png Graphic file (type png)
+<use pinoutuart.png>
+Package pdftex.def Info: pinoutuart.png  used on input line 102.
 (pdftex.def)             Requested size: 551.81023pt x 428.34926pt.
 <0.0.1.png, id=23, 552.0625pt x 476.78125pt>
 File: 0.0.1.png Graphic file (type png)
 <use 0.0.1.png>
-Package pdftex.def Info: 0.0.1.png  used on input line 108.
+Package pdftex.def Info: 0.0.1.png  used on input line 109.
 (pdftex.def)             Requested size: 552.06114pt x 476.78008pt.
 
 No file doc.bbl.
-[3] [4 <./pinout uart.png (PNG copy)>] [5 <./0.0.1.png>] (./doc.aux)
+[3] [4 <./pinoutuart.png (PNG copy)>] [5 <./0.0.1.png>] (./doc.aux)
 Package rerunfilecheck Info: File `doc.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
  14945 strings out of 478994
- 247740 string characters out of 5864751
+ 247732 string characters out of 5864751
  696561 words of memory out of 5000000
  32197 multiletter control sequences out of 15000+600000
  415594 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  111i,7n,116p,10598b,411s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on doc.pdf (5 pages, 391024 bytes).
+Output written on doc.pdf (5 pages, 391605 bytes).
 PDF statistics:
  95 PDF objects out of 1000 (max. 8388607)
  81 compressed objects within 1 object stream

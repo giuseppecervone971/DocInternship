@@ -890,11 +890,11 @@ INPUT /usr/share/texmf-dist/fonts/vf/adobe/palatino/pplr8c.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/public/mathpazo/fplmr.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/palatino/pplb7t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm
-INPUT ./pinout uart.png
-INPUT ./pinout uart.png
-INPUT pinout uart.png
-INPUT ./pinout uart.png
-INPUT ./pinout uart.png
+INPUT ./pinoutuart.png
+INPUT ./pinoutuart.png
+INPUT pinoutuart.png
+INPUT ./pinoutuart.png
+INPUT ./pinoutuart.png
 INPUT ./0.0.1.png
 INPUT ./0.0.1.png
 INPUT 0.0.1.png
