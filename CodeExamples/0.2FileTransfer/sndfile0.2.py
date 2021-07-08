@@ -32,7 +32,7 @@ while line:
 
 end_time = time.time() - start_time
 f.close()
-ser.write(b"<<EOF>>")
+ser.write(b"<<EOF>>\n")
 sha256_hash = sha256_hash.digest() #digest transforms into string
 ser.write(sha256_hash)
 
