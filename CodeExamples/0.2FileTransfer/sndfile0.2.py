@@ -6,7 +6,7 @@ import hashlib
 
 ser = serial.Serial(
         port = "/dev/serial0",
-        baudrate = 9600,
+        baudrate = 19200,
         parity = serial.PARITY_NONE,
         stopbits = serial.STOPBITS_ONE,
         bytesize = serial.EIGHTBITS,
@@ -24,17 +24,17 @@ start_time= time.time()
 
 f = open("log.txt","rb")
 
-line = f.readline
+line = f.readline()
 while line:
     sha256_hash.update(line)
     ser.write(line)
-    line = f.readline
+    line = f.readline()
 
 end time = time.time() - start_time
-ser.write(b"<<EOF>>")
-ser.write(sha256_hash)
 f.close()
-
+ser.write(b"<<EOF>>")
+sha256_hash = sha256_hash.digest() #digest transforms into string
+ser.write(sha256_hash)
 
 
 print('Transfer completed... Filesize:',filesize,'. Time:',end_time,'seconds.')
