@@ -1,7 +1,7 @@
 import serial
 import time
 import os
-from hurry.filesize import alternative
+from hurry.filesize import size,alternative
 import hashlib
 
 ser = serial.Serial(
