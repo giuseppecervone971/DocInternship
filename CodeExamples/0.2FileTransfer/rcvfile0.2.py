@@ -12,7 +12,7 @@ ser = serial.Serial(
         )
 #initialize serial port
 
-eof = b"<<EOF>>"
+eof = b"<<EOF>>\n"
 #define EOF, signals to the receiver that the file is over
 
 sha256_hash = hashlib.sha256() #we will calculate the SHA256 of the file to verify it's integrity after transfering
@@ -24,11 +24,9 @@ while x != eof: #until file comes, decode, if x=eof then check if file transfere
     sha256_hash.update(x) #decoding is done in bytes, so we make sha before making it in bits
     f.write(x)
     x = ser.readline()
-
 f.close()
 
 sha256_send = ser.readline()
-
 if sha256_send != sha256_hash.digest():
     print("File Transfer failed")
 else:
