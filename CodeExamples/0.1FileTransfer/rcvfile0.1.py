@@ -15,7 +15,7 @@ eof = '<<EOF>>'
 f = open("log.txt", "w")
 
 x = ser.readline()
-x = x.deecode()
+x = x.decode()
 
 while x != eof:
     f.write(x)
