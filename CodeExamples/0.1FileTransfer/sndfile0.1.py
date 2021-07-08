@@ -20,10 +20,10 @@ start_time= time.time()
 #Here we open the file, and keep on reading until there's lines, we then send <<EOF>> to signal to the other machine that file transfer is over.
 
 f = open("log.txt","rb")
-line = f.readline
+line = f.readline()
 while line:
     ser.write(line)
-    line = f.readline
+    line = f.readline()
 
 ser.write(b"<<EOF>>")
 
