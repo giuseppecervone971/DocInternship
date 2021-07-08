@@ -29,6 +29,6 @@ ser.write(b"<<EOF>>")
 
 f.close()
 
-end time = time.time() - start_time
+end_time = time.time() - start_time
 
 print('Transfer completed... Filesize:',filesize,'. Time:',end_time,'seconds.')
