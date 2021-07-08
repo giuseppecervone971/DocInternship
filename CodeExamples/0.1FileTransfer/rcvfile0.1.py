@@ -12,13 +12,11 @@ ser = serial.Serial(
 
 eof = '<<EOF>>'
 
-f = open("log.txt", "w")
+f = open("log.txt", "wb")
 
 x = ser.readline()
-x = x.decode()
 
 while x != eof:
     f.write(x)
     x = ser.readline()
-    x = x.decode()
 f.close()
