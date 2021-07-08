@@ -1,7 +1,7 @@
 import serial
 import time
 import os
-from hurry.filesize import size.alternative
+from hurry.filesize import alternative
 import hashlib
 
 ser = serial.Serial(
@@ -30,7 +30,7 @@ while line:
     ser.write(line)
     line = f.readline()
 
-end time = time.time() - start_time
+end_time = time.time() - start_time
 f.close()
 ser.write(b"<<EOF>>")
 sha256_hash = sha256_hash.digest() #digest transforms into string
