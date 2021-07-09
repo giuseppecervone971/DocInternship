@@ -5,5 +5,4 @@ Here in this repo I'll collect the whole documentation for my internship project
 ### To do list:
 
 - [x] Checksum to check for correct file transmission
-- [] Stress test
-
+- [ ] Stress test
