@@ -6,7 +6,4 @@ Here in this repo I'll collect the whole documentation for my internship project
 
 - [x] Checksum to check for correct file transmission
 - [] Stress test
-- []
-- []
-- []
-- []
+
