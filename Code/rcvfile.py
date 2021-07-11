@@ -26,7 +26,7 @@ while x != eof: #until file comes, decode, if x=eof then check if file transfere
     x = ser.readline()
 f.close()
 
-sha256_send = ser.readline()
+sha256_send = ser.read(32)
 if sha256_send != sha256_hash.digest():
     print("File Transfer failed")
 else:
