@@ -4,7 +4,7 @@ import hashlib
 
 ser = serial.Serial(
         port = "/dev/ttyUSB0",
-        baudrate = 19200,
+        baudrate = 115200,
         parity = serial.PARITY_NONE,
         stopbits = serial.STOPBITS_ONE,
         bytesize = serial.EIGHTBITS,
@@ -18,7 +18,7 @@ eof = b"<<EOF>>\n"
 sha256_hash = hashlib.sha256() #we will calculate the SHA256 of the file to verify it's integrity after transfering
 
 f = open("log.txt", "wb") #open file to write into
-
+ser.flushInput()
 x = ser.readline()
 while x != eof: #until file comes, decode, if x=eof then check if file transfered correctly
     sha256_hash.update(x) #decoding is done in bytes, so we make sha before making it in bits
