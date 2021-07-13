@@ -6,7 +6,7 @@ The following github repository will be used to collect the whole documentation 
 - [x] Communication between two machines.
 - [x] File Transmission.
 - [x] Checksum to check for correct file transmission.
-- [ ] Increased file size.
+- [x] Increased file size.
 - [ ] Increased transmission speeds.
 - [ ] Stress test.
 - [ ] Ease of use by allowing the program to be run for any filename.
