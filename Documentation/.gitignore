@@ -5,7 +5,7 @@
 *.out
 *.syntex.gz
 *.tex
-0.0.1DiagnosticTest/
-0.1FileTransfer/
-0.2FileTransfer/
+DiagnosticTest/
+1FileTransfer/
+2FileTransfer/
 img/
