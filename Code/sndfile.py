@@ -6,7 +6,7 @@ import hashlib
 
 ser = serial.Serial(
         port = "/dev/serial0",
-        baudrate = 19200,
+        baudrate = 115200,
         parity = serial.PARITY_NONE,
         stopbits = serial.STOPBITS_ONE,
         bytesize = serial.EIGHTBITS,
@@ -18,12 +18,11 @@ filesize = size(os.path.getsize('log.txt'), system=alternative) #gets filesize i
 
 sha256_hash = hashlib.sha256() #we will calculate the SHA256 of the file to verify integrity.
 
+f = open("log.txt","rb")
 print("Starting transfer... Time started")
 start_time= time.time()
 #Here we open the file, and keep on reading until there's lines, we then send <<EOF>> to signal to the other machine that file transfer is over.
-
-f = open("log.txt","rb")
-
+ser.flushOutput()
 line = f.readline()
 while line:
     sha256_hash.update(line)
