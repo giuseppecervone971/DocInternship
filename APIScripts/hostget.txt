@@ -1,0 +1,17 @@
+curl -H "Content-Type: application/json-rpc" -X POST http://192.168.1.141/zabbix/api_jsonrpc.php -d'
+{
+    "jsonrpc": "2.0",
+    "method": "host.get",
+    "params": {
+      "output": [
+            "hostid",
+            "host"
+        ],
+        "selectInterfaces": [
+            "interfaceid",
+            "ip"
+        ]
+    },
+    "auth": "6abf1c5ca775baabe3d6e1566049b815",
+    "id": 1
+}'
