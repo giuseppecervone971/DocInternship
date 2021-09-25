@@ -10,10 +10,10 @@ import hashlib
 def calculateHash():
     f = open("data.txt", "rb")
     sha256_hash = hashlib.sha256() #we will calculate the SHA256 of the file to verify integrity.
-    line = f.read(2048)
+    line = f.read(1024)
     while line:
         sha256_hash.update(line)
-        line = f.read(2048)
+        line = f.read(1024)
     sha256_hash = sha256_hash.digest() #digest transforms into string
 
     return sha256_hash
@@ -23,10 +23,10 @@ def sendFile(ser):
     f = open("data.txt","rb")
     print("Starting transfer...")
     ser.flushOutput()
-    line = f.read(2048)
+    line = f.read(1024)
     while line:
         ser.write(line)
-        line = f.read(2048)
+        line = f.read(1024)
     f.close()
     ser.write(eof)
     ser.flushOutput()
