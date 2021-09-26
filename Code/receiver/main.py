@@ -5,7 +5,7 @@ import subprocess
 
 
 def calculateHash():
-    f = open("log.txt", "rb")
+    f = open("data.txt", "rb")
     sha256_hash = hashlib.sha256()
     line = f.read(1024)
     while line:
@@ -29,7 +29,7 @@ def recvHash(ser):
 def recvFile(ser):
     eof = b"EOF"
 
-    f = open("log.txt", "wb")
+    f = open("data.txt", "wb")
     ser.flushInput()
     while True:
         x = ser.inWaiting()
@@ -77,7 +77,7 @@ def main():
 
     hash1 = calculateHash()
 
-    if hash1=hash2:
+    if hash1==hash2:
         print("File Transfer Success... Importing data in Zabbix...")
         subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "data.txt", "-T"])
         print("File imported...")
