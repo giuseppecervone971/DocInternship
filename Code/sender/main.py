@@ -22,14 +22,14 @@ def sendFile(ser):
     eof = b'EOF'
     f = open("data.txt","rb")
     print("Starting transfer...")
-    ser.flushOutput()
-    line = f.read(1024)
+
+    line = f.read(512)
     while line:
         ser.write(line)
-        line = f.read(1024)
+        line = f.read(512)
     f.close()
     ser.write(eof)
-    ser.flushOutput()
+
     print('Transfer completed...')
 
 def createSerial():
@@ -66,7 +66,7 @@ def historyToFile(zapi, hosts, items):
             for history in historys:
                 f.write('"%s" %s %s %s\n' % (hostname, itemkey, history["clock"], history["value"]))
         y+=1
-    print('Wxported history...')
+    print('Exported history...')
     f.close()
     #these loops work in the following way:
         #each item block has the same index of the host,
@@ -132,6 +132,7 @@ def main():
 
     #calculate has from file and send hash value
     hash1 = calculateHash()
+    time.sleep(5)
     ser.write(hash1)
     print('Hash sent... Closing program.')
 
