@@ -28,27 +28,19 @@ def recvHash(ser):
 
 def recvFile(ser):
     eof = b'EOF'
-
     f = open("data.txt", "wb")
 
     while True:
-        x = ser.inWaiting()
-
-        if x>0:
-            print("File transfer started...")
-            x = ser.read(x)
-            f.write(x)
-            x = ser.read(1024)
-            
-            while eof not in x:
-                f.write(x)
-                x = ser.read(1024)
-
-            f.write(x[:-3])
-            f.close()
-            break
-        print("No file yet...")
-        time.sleep(1)
+        recvdatalen = ser.inWaiting()
+        if recvdatalen>0:
+            line = ser.read(recvdatalen)
+            if eof in line:
+                f.write(line[:-3])
+                break
+            else:
+                f.write(line)
+        time.sleep(0.001)
+    print("File transfer completed...")
 
 
 def createSerial():
@@ -84,7 +76,7 @@ def main():
     #if the two hash values are equal, file transfer successful, else file transfer failed.
     if hash1==hash2:
         print("File Transfer Success... Importing data in Zabbix...")
-        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "data.txt", "-T"])
+        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "data.txt", "-T", "-vv"])
         print("File imported...")
     else:
         print("File Transfer Failed")

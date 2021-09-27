@@ -62,7 +62,8 @@ def historyToFile(zapi, hosts, items):
         for x in range(len(item)):
             itemkey = item[x]['key_']
             itemid = item[x]['itemid']
-            historys = zapi.history.get(hostids = hostid, itemids = itemid, time_from = timeFrom, time_till = timeTill, output="extend")
+            itemtype= item[x]['value_type']
+            historys = zapi.history.get(hostids = hostid, itemids = itemid, time_from = timeFrom, time_till = timeTill, history = itemtype, output="extend")
             for history in historys:
                 f.write('"%s" %s %s %s\n' % (hostname, itemkey, history["clock"], history["value"]))
         y+=1
@@ -79,7 +80,7 @@ def getItems(zapi, hosts):
     items = []
     for host in hosts:
         hostid = host['hostid']
-        items.append(zapi.item.get(hostids = hostid, output=["key_", "hostid", "hostname"]))
+        items.append(zapi.item.get(hostids = hostid, output=["key_", "hostid", "hostname","value_type"]))
     if len(items) == 0:
         print('No items.. Quitting program')
         sys.exit()
