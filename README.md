@@ -13,6 +13,7 @@ The repository currently is structed in two main folders, one is the documentati
 ### Extras for File Transfer:
 - [ ] Ease of use by allowing the program to be run for any filename.
 - [ ] RTS/CTS implementation or using the filesize as a parameter for more secure transmission.
+- [ ] Config file for parameters
 
 
 ### To do list for Zabbix:
