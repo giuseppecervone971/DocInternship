@@ -47,11 +47,24 @@ def createSerial():
         print(e)
 #Initialize serial port
 
+def setDate():
+    if os.path.isfile('time.txt'):
+        f = open('time.txt', 'r')
+        timeFrom = int(f.readline())
+        timeTill = timeFrom + 300
+        f.close()
+        f = open('time.txt', 'w')
+        f.write(str(timeTill))
+    else:
+        timeTill = int(time.time())
+        timeFrom = timeTill - 300
+        f.write(str(timeTill))
+        f.close()
+    return timeFrom, timeTill  
 
 def historyToFile(zapi, hosts, items):
     y = 0
-    timeTill = int(time.time())
-    timeFrom = timeTill- 300
+    timeFrom, timeTill = setDate()
     #in these first lines of code we initialize basic variables for host index counting, and time values(divided 5 minutes apart)
 
     f = open('data.txt', 'w')
