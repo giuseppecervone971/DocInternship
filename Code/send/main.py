@@ -8,7 +8,7 @@ import serial
 import hashlib
 
 def calculateHash():
-    f = open("data.txt", "rb")
+    f = open("send/data.txt", "rb")
     sha256_hash = hashlib.sha256() #we will calculate the SHA256 of the file to verify integrity.
     line = f.read(1024)
     while line:
@@ -20,7 +20,7 @@ def calculateHash():
 
 def sendFile(ser):
     eof = b'EOF'
-    f = open("data.txt","rb")
+    f = open("send/data.txt","rb")
     print("Starting transfer...")
 
     line = f.read(512)
@@ -48,12 +48,12 @@ def createSerial():
 #Initialize serial port
 
 def setDate():
-    if os.path.isfile('time.txt'):
-        f = open('time.txt', 'r')
+    if os.path.isfile('send/time.txt'):
+        f = open('send/time.txt', 'r')
         timeFrom = int(f.readline())
         timeTill = timeFrom + 300
         f.close()
-        f = open('time.txt', 'w')
+        f = open('send/time.txt', 'w')
         f.write(str(timeTill))
     else:
         timeTill = int(time.time())
@@ -67,7 +67,7 @@ def historyToFile(zapi, hosts, items):
     timeFrom, timeTill = setDate()
     #in these first lines of code we initialize basic variables for host index counting, and time values(divided 5 minutes apart)
 
-    f = open('data.txt', 'w')
+    f = open('send/data.txt', 'w')
 
     for item in items:
         hostname = hosts[y]["name"]
