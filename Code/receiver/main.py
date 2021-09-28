@@ -6,6 +6,7 @@ import subprocess
 def sender():
     f = open("data.txt", "r")
     line = f.readline()
+    x=0
     while line:
         f2 = open("tmp.txt", "w")
         while x in range(250):
