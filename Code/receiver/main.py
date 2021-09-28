@@ -3,6 +3,18 @@ import time
 import hashlib
 import subprocess
 
+def sender():
+    f = open("data.txt", "r")
+    line = f.readline()
+    while line:
+        f2 = open("tmp.txt", "w")
+        while x in range(250):
+            f2.write(line)
+            line = f.readline()
+            x+=1
+        f2.close()
+        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "tmp.txt", "-T", "-vv"])
+
 
 def calculateHash():
     f = open("data.txt", "rb")
@@ -64,22 +76,24 @@ def main():
     #create serial port
     ser = createSerial()
 
-    #receive file
-    recvFile(ser)
+    while True:
+        #receive file
+        recvFile(ser)
 
     #receive hash in sha256 form
-    hash2 = recvHash(ser)
+        hash2 = recvHash(ser)
 
     #calculate hash from received file
-    hash1 = calculateHash()
+        hash1 = calculateHash()
 
     #if the two hash values are equal, file transfer successful, else file transfer failed.
-    if hash1==hash2:
-        print("File Transfer Success... Importing data in Zabbix...")
-        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "data.txt", "-T", "-vv"])
-        print("File imported...")
-    else:
-        print("File Transfer Failed")
+        if hash1==hash2:
+            print("File Transfer Success... Importing data in Zabbix...")
+            sender()
+            subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "data.txt", "-T", "-vv"])
+            print("File imported...")
+        else:
+            print("File Transfer Failed")
 
 
 
