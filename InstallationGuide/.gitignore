@@ -3,7 +3,7 @@
 *.fls
 *.log
 *.out
-*.syntex.gz
+*.synctex.gz
 *.tex
 DiagnosticTest/
 1FileTransfer/
