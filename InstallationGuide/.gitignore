@@ -1,0 +1,11 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.syntex.gz
+*.tex
+DiagnosticTest/
+1FileTransfer/
+2FileTransfer/
+img/
