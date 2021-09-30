@@ -58,6 +58,7 @@ def setDate():
     else:
         timeTill = int(time.time())
         timeFrom = timeTill - 300
+        f = open('/home/pi/send/time.txt', 'w')
         f.write(str(timeTill))
         f.close()
     return timeFrom, timeTill  
