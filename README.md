@@ -11,8 +11,8 @@ The repository currently is structed in two main folders, one is the documentati
 - [x] Increased transmission speeds.
 - [x] Stress test.
 ### Extras for File Transfer:
-- [ ] Ease of use by allowing the program to be run for any filename.
-- [ ] RTS/CTS implementation or using the filesize as a parameter for more secure transmission.
+- [ ] Log prints rather than simple print statements.
+- [ ] RTS/CTS implementation or multithreading.
 - [ ] Config file for parameters
 
 
@@ -20,7 +20,9 @@ The repository currently is structed in two main folders, one is the documentati
 - [X] Setup on both Raspberry Pi machines
 - [X] Add to the public Zabbix server the hosts and items (as trappers).
 - [X] Configure Zabbix dashboard for easy access to graphs.
+- [ ] Config script for hosts and items
 
 ### To do list for Documentation:
-- [ ] Zabbix installation guide
+- [ ] Check installation guide
+- [ ] Write thesis
 
