@@ -6,8 +6,8 @@ import subprocess
 def sender():
     f = open("/home/pi/rcv/data.txt", "r")
     line = f.readline()
-    x=0
     while line:
+        x = 0
         f2 = open("/home/pi/rcv/tmp.txt", "w")
         while x in range(250):
             f2.write(line)
