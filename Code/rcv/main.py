@@ -91,7 +91,6 @@ def main():
         if hash1==hash2:
             print("File Transfer Success... Importing data in Zabbix...")
             sender()
-            subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "data.txt", "-T", "-vv"])
             print("File imported...")
         else:
             print("File Transfer Failed")
