@@ -4,11 +4,11 @@ import hashlib
 import subprocess
 
 def sender():
-    f = open("data.txt", "r")
+    f = open("/home/pi/rcv/data.txt", "r")
     line = f.readline()
     x=0
     while line:
-        f2 = open("tmp.txt", "w")
+        f2 = open("/home/pi/rcv/tmp.txt", "w")
         while x in range(250):
             f2.write(line)
             line = f.readline()
@@ -18,7 +18,7 @@ def sender():
 
 
 def calculateHash():
-    f = open("data.txt", "rb")
+    f = open("/home/pi/rcv/data.txt", "rb")
     sha256_hash = hashlib.sha256()
     line = f.read(1024)
     while line:
@@ -41,7 +41,7 @@ def recvHash(ser):
 
 def recvFile(ser):
     eof = b'EOF'
-    f = open("data.txt", "wb")
+    f = open("/home/pi/rcv/data.txt", "wb")
 
     while True:
         recvdatalen = ser.inWaiting()
