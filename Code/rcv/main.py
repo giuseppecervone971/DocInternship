@@ -14,7 +14,7 @@ def sender():
             line = f.readline()
             x+=1
         f2.close()
-        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "tmp.txt", "-T", "-vv"])
+        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "/home/pi/rcv/tmp.txt", "-T", "-vv"])
 
 
 def calculateHash():
