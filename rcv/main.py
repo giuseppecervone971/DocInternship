@@ -5,22 +5,22 @@ import subprocess
 
 #this function is what we use to send the data to the trapper items in zabbix.
 def sender():
-    f = open("/home/pi/rcv/data.txt", "r")
+    f = open("/home/pi/DocInternship/rcv/data.txt", "r")
     #the 
     line = f.readline()
     while line: #zabbix sender takes 250 values at the time, so we split the data.txt file in small 250lines tmp files.
         x = 0
-        f2 = open("/home/pi/rcv/tmp.txt", "w")
+        f2 = open("/home/pi/DocInternship/rcv/tmp.txt", "w")
         while x in range(250):
             f2.write(line)
             line = f.readline()
             x+=1
         f2.close()
-        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "/home/pi/rcv/tmp.txt", "-T", "-vv"])
+        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "/home/pi/DocInternship/rcv/tmp.txt", "-T", "-vv"])
 
 
 def calculateHash():
-    f = open("/home/pi/rcv/data.txt", "rb")
+    f = open("/home/pi/DocInternship/rcv/data.txt", "rb")
     sha256_hash = hashlib.sha256()
     line = f.read(1024)
     while line:
@@ -43,7 +43,7 @@ def recvHash(ser):
 
 def recvFile(ser):
     eof = b'EOF'
-    f = open("/home/pi/rcv/data.txt", "wb")
+    f = open("/home/pi/DocInternship/rcv/data.txt", "wb")
     
     while True:
         recvdatalen = ser.inWaiting()
