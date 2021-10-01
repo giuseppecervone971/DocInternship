@@ -8,7 +8,7 @@ import serial
 import hashlib
 
 def calculateHash():
-    f = open("/home/pi/send/data.txt", "rb")
+    f = open("/home/pi/DocInternship/send/data.txt", "rb")
     sha256_hash = hashlib.sha256() #we will calculate the SHA256 of the file to verify integrity.
     line = f.read(1024)
     while line:
@@ -20,7 +20,7 @@ def calculateHash():
 
 def sendFile(ser):
     eof = b'EOF'
-    f = open("/home/pi/send/data.txt","rb")
+    f = open("/home/pi/DocInternship/send/data.txt","rb")
     print("Starting transfer...")
 
     line = f.read(512)
@@ -47,18 +47,18 @@ def createSerial():
         print(e)
 #Initialize serial port
 
-def setDate():
-    if os.path.isfile('/home/pi/send/time.txt'):
-        f = open('/home/pi/send/time.txt', 'r')
+def setDate(): #since we want our time checks to be 5 minutes apart from the last one, as to not lose any data, we keep the time variable in a file.
+    if os.path.isfile('/home/pi/DocInternship/send/time.txt'):
+        f = open('/home/pi/DocInternship/send/time.txt', 'r')
         timeFrom = int(f.readline())
         timeTill = timeFrom + 300
         f.close()
-        f = open('/home/pi/send/time.txt', 'w')
+        f = open('/home/pi/DocInternship/send/time.txt', 'w')
         f.write(str(timeTill))
     else:
-        timeTill = int(time.time())
+        timeTill = int(time.time()) #if the file doesn't exist, we initialize the file as the current time.
         timeFrom = timeTill - 300
-        f = open('/home/pi/send/time.txt', 'w')
+        f = open('/home/pi/DocInternship/send/time.txt', 'w')
         f.write(str(timeTill))
         f.close()
     return timeFrom, timeTill  
@@ -68,7 +68,7 @@ def historyToFile(zapi, hosts, items):
     timeFrom, timeTill = setDate()
     #in these first lines of code we initialize basic variables for host index counting, and time values(divided 5 minutes apart)
 
-    f = open('/home/pi/send/data.txt', 'w')
+    f = open('/home/pi/DocInternship/send/data.txt', 'w')
 
     for item in items:
         hostname = hosts[y]["name"]
@@ -86,7 +86,7 @@ def historyToFile(zapi, hosts, items):
     #these loops work in the following way:
         #each item block has the same index of the host,
         #so we take id and name of the host of the specific item block
-            #then for each item in the item block we look up it's history, and write it in the file.
+            #then for each item in the item block we look up it's history, and write it in the file. Making sure to have history.get call use the correct data type.
 
 
 #gets items, minimal info to use less system memory, each index of the list is connected to a host with the same index. They are however separate lists.
