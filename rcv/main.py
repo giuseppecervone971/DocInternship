@@ -3,10 +3,12 @@ import time
 import hashlib
 import subprocess
 
+#this function is what we use to send the data to the trapper items in zabbix.
 def sender():
     f = open("/home/pi/rcv/data.txt", "r")
+    #the 
     line = f.readline()
-    while line:
+    while line: #zabbix sender takes 250 values at the time, so we split the data.txt file in small 250lines tmp files.
         x = 0
         f2 = open("/home/pi/rcv/tmp.txt", "w")
         while x in range(250):
@@ -31,7 +33,7 @@ def calculateHash():
 
 def recvHash(ser):
     while True:
-        if ser.inWaiting() < 32:
+        if ser.inWaiting() < 32: #SHA256 hash is 32 bytes long
             time.sleep(1)
         else:
             break
@@ -42,13 +44,14 @@ def recvHash(ser):
 def recvFile(ser):
     eof = b'EOF'
     f = open("/home/pi/rcv/data.txt", "wb")
-
+    
     while True:
         recvdatalen = ser.inWaiting()
         if recvdatalen>0:
             line = ser.read(recvdatalen)
+            #The idea is that we only ever read from the serial port the bytes we see, limiting the probability of taking a chunk of SHA256 hash. 
             if eof in line:
-                f.write(line[:-3])
+                f.write(line[:-3]) #once the chunk has EOF, write to file removing the 3 EOF bytes
                 break
             else:
                 f.write(line)
