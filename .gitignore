@@ -1,2 +1,16 @@
 PDF/
-
+*.fdb_latexmk
+*.aux
+*.log
+*.fls
+*.out
+*.synctex.gz
+*.tex
+InstallationGuide/DiagnosticTest/
+InstallationGuide/img/
+InstallationGuide/Code/
+DiagnosticTest/
+1FileTransfer/
+2FileTransfer/
+3FileTransfer/
+img/
