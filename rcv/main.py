@@ -2,6 +2,7 @@ import serial
 import time
 import hashlib
 import subprocess
+import logging
 
 #this function is what we use to send the data to the trapper items in zabbix.
 def sender():
@@ -56,7 +57,7 @@ def recvFile(ser):
             else:
                 f.write(line)
         time.sleep(0.001)
-    print("File transfer completed...")
+    logging.info("File transfer completed...")
 
 
 def createSerial():
@@ -69,14 +70,16 @@ def createSerial():
             bytesize = serial.EIGHTBITS,
             timeout = 1
         ) #initialize serial port
-        print("Serial port created...")
+        logging.info("Serial port created...")
         return ser
     except Exception as e:
-        print(e)
+        logging.warning(e)
 
 
 def main():
-    
+
+    logging.basicConfig(filename='/home/pi/DocInternship/rcv/example.log', encoding='utf-8', filemode='w', format ='%(asctime)s %(message)s', level=logging.DEBUG)
+
     #create serial port
     ser = createSerial()
 
@@ -92,11 +95,11 @@ def main():
 
     #if the two hash values are equal, file transfer successful, else file transfer failed.
         if hash1==hash2:
-            print("File Transfer Success... Importing data in Zabbix...")
+            logging.info("File Transfer Success... Importing data in Zabbix...")
             sender()
-            print("File imported...")
+            logging.info("File imported...")
         else:
-            print("File Transfer Failed")
+            logging.warning("File Transfer Failed")
 
 
 

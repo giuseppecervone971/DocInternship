@@ -21,7 +21,7 @@ def calculateHash():
 def sendFile(ser):
     eof = b'EOF'
     f = open("/home/pi/DocInternship/send/data.txt","rb")
-    print("Starting transfer...")
+    logging.debug("Starting transfer...")
 
     line = f.read(512)
     while line:
@@ -30,7 +30,7 @@ def sendFile(ser):
     f.close()
     ser.write(eof)
 
-    print('Transfer completed...')
+    logging.debug('Transfer completed...')
 
 def createSerial():
     try:
@@ -81,7 +81,7 @@ def historyToFile(zapi, hosts, items):
             for history in historys:
                 f.write('"%s" %s %s %s\n' % (hostname, itemkey, history["clock"], history["value"]))
         y+=1
-    print('Exported history...')
+    logging.debug('Exported history...')
     f.close()
     #these loops work in the following way:
         #each item block has the same index of the host,
@@ -96,10 +96,10 @@ def getItems(zapi, hosts):
         hostid = host['hostid']
         items.append(zapi.item.get(hostids = hostid, output=["key_", "hostid", "hostname","value_type"]))
     if len(items) == 0:
-        print('No items.. Quitting program')
+        logging.critical('No items.. Quitting program')
         sys.exit()
     else:
-        print('Items found...')
+        logging.debug('Items found...')
         return items
 
 
@@ -107,23 +107,23 @@ def getItems(zapi, hosts):
 def getHosts(zapi):
     hosts = zapi.host.get(output=['name'])
     if len(hosts) == 0:
-        print('No hosts... Quitting program')
+        logging.critical('No hosts... Quitting program')
         sys.exit()
     else:
-        print('Hosts found...')
+        logging.debug('Hosts found...')
         return hosts
 
 #login function, used to get auth key for all Zabbix API calls
 def login(zapi, username, password):
     try:
         zapi.login(username, password)
-        print ("Login Success...")
+        logging.debug("Login Success...")
     except:
-        print ("Zabbix server not reachable... Quitting program")
+        logging.critical("Zabbix server not reachable... Quitting program")
         sys.exit()
 
 def main():
-
+    logging.basicConfig(filename='/home/pi/DocInternship/send/example.log', encoding='utf-8', filemode='w', format ='%(asctime)s %(message)s', level=logging.DEBUG)
     #define server
     zapi = ZabbixAPI('http://192.168.1.198/zabbix')
 
@@ -149,7 +149,7 @@ def main():
     hash1 = calculateHash()
     time.sleep(5)
     ser.write(hash1)
-    print('Hash sent... Closing program.')
+    logging.info('Hash sent... Closing program.')
 
 
 if __name__ == '__main__':
