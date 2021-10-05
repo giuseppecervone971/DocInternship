@@ -78,7 +78,7 @@ def createSerial():
 
 def main():
 
-    logging.basicConfig(filename='/home/pi/DocInternship/rcv/example.log', encoding='utf-8', format='%(asctime)s %(message)s', level=logging.DEBUG)
+    logging.basicConfig(filename='/home/pi/DocInternship/rcv/example.log', format='%(asctime)s %(message)s', level=logging.DEBUG)
 
     #create serial port
     ser = createSerial()
