@@ -2,6 +2,7 @@ from pyzabbix import ZabbixAPI
 import sys
 import datetime
 import time
+import logging
 import argparse
 import os
 import serial
