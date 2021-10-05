@@ -11,7 +11,7 @@ The repository currently is structed in two main folders, one is the installatio
 - [x] Increased transmission speeds.
 - [x] Stress test.
 ### Extras for File Transfer:
-- [ ] Log prints rather than simple print statements.
+- [x] Log prints rather than simple print statements.
 - [ ] RTS/CTS implementation or multithreading.
 - [ ] Config file for parameters
 
@@ -24,6 +24,6 @@ The repository currently is structed in two main folders, one is the installatio
 - [ ] Android app integration
 
 ### To do list for Documentation:
-- [ ] Check installation guide
+- [x] Write installation guide
 - [ ] Write thesis
 
