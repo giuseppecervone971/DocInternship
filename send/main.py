@@ -123,7 +123,7 @@ def login(zapi, username, password):
         sys.exit()
 
 def main():
-    logging.basicConfig(filename='/home/pi/DocInternship/send/example.log', encoding='utf-8', filemode='w', format ='%(asctime)s %(message)s', level=logging.DEBUG)
+    logging.basicConfig(filename='/home/pi/DocInternship/send/example.log', encoding='utf-8', format='%(asctime)s %(message)s', level=logging.DEBUG)
     #define server
     zapi = ZabbixAPI('http://192.168.1.198/zabbix')
 
