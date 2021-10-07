@@ -6,9 +6,9 @@ import logging
 
 #this function is what we use to send the data to the trapper items in zabbix.
 def sender():
-    f = open("/home/pi/DocInternship/rcv/data.txt", "r") 
+    f = open("/home/pi/DocInternship/rcv/data.txt", "r")
     line = f.readline()
-    while line: #zabbix sender takes 250 values at the time, so we split the data.txt file in small 250lines tmp fi$
+    while line: #zabbix sender takes 250 values at the time, so we split the data.txt file in small 250lines tmp files.
         x = 0
         f2 = open("/home/pi/DocInternship/rcv/tmp.txt", "w")
         while x in range(250):
@@ -16,7 +16,7 @@ def sender():
             line = f.readline()
             x+=1
         f2.close()
-        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "/home/pi/DocInternship/rcv/tmp.txt", "-T", "$
+        subprocess.run(["zabbix_sender", "-z", "192.168.1.157", "-i", "/home/pi/DocInternship/rcv/tmp.txt", "-T", "-vv"])
 
 
 def calculateHash():
