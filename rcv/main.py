@@ -7,7 +7,6 @@ import logging
 #this function is what we use to send the data to the trapper items in zabbix.
 def sender():
     f = open("/home/pi/DocInternship/rcv/data.txt", "r")
-    #the 
     line = f.readline()
     while line: #zabbix sender takes 250 values at the time, so we split the data.txt file in small 250lines tmp files.
         x = 0
