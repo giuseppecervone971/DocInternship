@@ -1,4 +1,5 @@
 PDF/
+*.synctex.gz(busy)
 *.fdb_latexmk
 *.aux
 *.log
