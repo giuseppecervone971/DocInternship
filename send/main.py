@@ -22,7 +22,7 @@ def calculateHash():
 def sendFile(ser):
     eof = b'EOF'
     f = open("/home/pi/DocInternship/send/data.txt","rb")
-    logging.debug("Starting transfer...")
+    logging.info("Starting transfer...")
 
     line = f.read(512)
     while line:
@@ -31,7 +31,7 @@ def sendFile(ser):
     f.close()
     ser.write(eof)
 
-    logging.debug('Transfer completed...')
+    logging.info('Transfer completed...')
 
 def createSerial():
     try:
@@ -45,7 +45,7 @@ def createSerial():
         )
         return ser
     except Exception as e:
-        print(e)
+        logging.warning(e)
 #Initialize serial port
 
 def setDate(): #since we want our time checks to be 5 minutes apart from the last one, as to not lose any data, we keep the time variable in a file.
@@ -82,7 +82,7 @@ def historyToFile(zapi, hosts, items):
             for history in historys:
                 f.write('"%s" %s %s %s\n' % (hostname, itemkey, history["clock"], history["value"]))
         y+=1
-    logging.debug('Exported history...')
+    logging.info('Exported history...')
     f.close()
     #these loops work in the following way:
         #each item block has the same index of the host,
@@ -100,7 +100,7 @@ def getItems(zapi, hosts):
         logging.critical('No items.. Quitting program')
         sys.exit()
     else:
-        logging.debug('Items found...')
+        logging.info('Items found...')
         return items
 
 
@@ -111,20 +111,20 @@ def getHosts(zapi):
         logging.critical('No hosts... Quitting program')
         sys.exit()
     else:
-        logging.debug('Hosts found...')
+        logging.info('Hosts found...')
         return hosts
 
 #login function, used to get auth key for all Zabbix API calls
 def login(zapi, username, password):
     try:
         zapi.login(username, password)
-        logging.debug("Login Success...")
+        logging.info("Login Success...")
     except:
         logging.critical("Zabbix server not reachable... Quitting program")
         sys.exit()
 
 def main():
-    logging.basicConfig(filename='/home/pi/DocInternship/send/example.log', format='%(asctime)s %(message)s', level=logging.DEBUG)
+    logging.basicConfig(filename='/home/pi/DocInternship/send/example.log', format='%(asctime)s %(message)s', level=logging.INFO)
     #define server
     zapi = ZabbixAPI('http://192.168.1.198/zabbix')
 
