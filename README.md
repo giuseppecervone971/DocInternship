@@ -12,7 +12,7 @@ The repository currently is structed in two main folders, one is the installatio
 - [x] Stress test.
 ### Extras for File Transfer:
 - [x] Log prints rather than simple print statements.
-- [ ] RTS/CTS implementation or multithreading.
+- [ ] Multithreading implementation, with a queue of file uploads for Zabbix Sender.
 - [ ] Config file for parameters
 
 
