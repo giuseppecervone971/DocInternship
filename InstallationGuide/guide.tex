@@ -1,0 +1,260 @@
+\documentclass[a4paper,11pt]{scrartcl}
+
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
+
+\usepackage[utf8]{inputenc} 
+\usepackage{amsmath,amssymb,amsthm} 
+\usepackage[round]{natbib}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage[left=20mm,top=20mm]{geometry}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{mathpazo}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\title{Internship Project Installation Guide}
+\date{}
+\author{Giuseppe Cervone\\ \url{giuseppe.cervone.971@gmail.com}}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The following installation guide will break down how to set up the specific devices, which software has to be installed and the configuration parameters to follow for a complete installation of the remote network monitoring system.
+
+\section{Devices}
+\subsection{Raspberry Pi}
+As far as choosing the best Raspberry Pi model for the job, the parameters to look for are that it needs to have enough RAM to handle possible big data chunks, it needs to have a fast enough CPU, it can possibly can be used without cooling, everything at a low enough cost. Needing for it not to be cooled removes the Raspberry Pi 4 from the equation, since it prefers having a cooling solution and the increased clock speeds won't help with serial communication limitations, on the other hand the Raspberry Pi 2 already comes with 1Gb Ram, but misses the clock speed needed for multiple programs to run at a good enough speed. 
+The Raspberry Pi 3 models should be able to handle the data size and the processes we want to run. The following is the configuration used for the testing of this project:
+\begin{itemize}
+    \item Raspberry Pi 3 Model B Ver1.2:
+    \begin{itemize}
+        \item Quad Core 1.2GHz Broadcom BCM2837 64bit CPU
+        \item 1GB RAM
+        \item BCM43438 wireless LAN and Bluetooth Low Energy (BLE) on board
+        \item 100 Base Ethernet
+        \item 40-pin extended pinout with GPIO support
+        \item 4 USB 2 ports
+        \item 4 Pole stereo output and composite video port
+        \item Full size HDMI
+        \item CSI camera port for connecting a Raspberry Pi camera
+        \item DSI display port for connecting a Raspberry Pi touchscreen display
+        \item Micro SD port for loading your operating system and storing data
+        \item Upgraded switched Micro USB power source up to 2.5A
+        \item Raspberry Pi OS Lite (latest version)
+        \item 16GB microSD card
+    \end{itemize}
+\end{itemize}
+
+Using the RPI-Imager tool, install the latest Raspberry PI OS Lite image. If you don't want to use a monitor or keyboard to run the first configuration, it is possible to enable WiFi and SSH capabilites at this stage. If you want to do so, after having created the image, include two files in the \textit{boot} folder on the Raspberry Pi SD card. The first file, is a \textit{wpa\_supplicant.conf} file, used to enable WiFi. An example of this type of file can be found here below:
+\begin{lstlisting}
+country=<Insert 2 letter ISO 3166-1 country code here>
+update_config=1
+
+network={
+ ssid="<Name of your wireless LAN>"
+ psk="<Password for your wireless LAN>"
+}
+\end{lstlisting}
+For SSH support, it's enough to include a \textit{ssh} file in the boot folder.
+Upon first boot up, the Raspberry Pi login is username: pi, password: raspberry.
+As Raspberry Pi OS Lite is an OS without a desktop environment, so getting to system settings is done using the utility \textit{raspi-config}. 
+Using the command \textit{sudo raspi-config}, you open the utility, once in the main menu change these specific settings:
+\begin{itemize}   
+    \item In the system options:
+    \begin{itemize}
+        \item Enable WiFi if needed for SSH purposes and if you haven't done this before. On first boot country code is also set.
+        \item Change username and password if needed.
+    \end{itemize}
+    \item In the interface options:
+    \begin{itemize}
+        \item Enable SSH if you haven't done this before. Using SSH is suggested for development on these units, as they are installs without a DE/WM(desktop environment/window manager) configuration, and thus it's best to use your preferred terminal emulator.
+        \item Enable Serial interface, remembering to disable login shell but enable serial interface.
+    \end{itemize}
+    \item In the localisation options:
+        \begin{itemize}
+            \item Change the the timezone to the local one.
+        \end{itemize}
+    \item Disable bluetooth:
+    \begin{itemize}
+        \item It's suggested disabling bluetooth to make the final product more secure.
+        \item Disable bluetooth by adding the line \textit{dtoverlay=disable-bt} in \textit{/boot/config.txt} using your preferred command line editor.
+    \end{itemize}
+    \item Additional software:
+    \begin{itemize}
+        \item Run \textit{sudo apt-get update \&\& sudo apt-get upgrade}
+        \item Run \textit{sudo apt-get install python3} to install Python in it's latest version.
+        \item Run \textit{sudo apt-get install python3-pip} to install Python's package manager.
+        \item Run \textit{pip3 install pyserial} to install the serial library used to have the machines comunicate.
+        \item Run \textit{pip3 install pyzabbix} to install the Python library used to interface with the Zabbix API. This packet only has to be installed on the Raspberry working on the private network.
+        \item Run \textit{sudo apt-get install zabbix-sender} to install Zabbix sender, the utility we use to interface with Zabbix trapper items.
+        \item Run \textit{sudo apt-get install git} to install the git program. Useful to clone into the directory of this program.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Serial cable}
+The cable used for this project is a TTL-232R-3V3 cable, which is USB-to-serial, with +3.3V TTL levels UART signals. The cable has 6-pins on one end, and USB on the other.
+With the cable plugged in as shown in Figure 1, run the command \textit{ls /dev/tty*} on both Raspberry Pi machines to check that the ports used to send and receive data are available. The port that's sending data will be \textit{/dev/ttyS0}, while for the other port it should be \textit{/dev/ttyUSB0}. In older Pi models, instead of using \textit{/dev/ttyS0}, the port that was used instead was \textit{/dev/ttyAMA0}, thus Raspian will always map those serial ports to the alias \textit{/dev/serial0}, so it is suggested to use the alias in programming as it doesn't differentiate between Raspberry Pi Models. As mentioned earlier in Figure 1 there is an image showing how the cable is meant to be plugged in, while in the Appendix 1 there is the full extract from the documentation of the cable, showing the functionality of all the cable pins in detail.
+
+\begin{figure}[h!]
+    \centering 
+    \includegraphics[scale = 0.5]{img2}
+    \caption{Pinout diagram}
+    \label{fig:figure1}
+\end{figure}
+
+The cable pinout is peculiar as most pins are not used. The pins that get used are the ground pin and the pin that sends data over to the other Raspberry Pi machine. Yellow pin is plugged in GPIO14, ground can be plugged in any of the Raspberry Pi ground pins.
+
+\section{Serial interface}
+\subsection{Diagnostic test}
+With the current setup ready, use the diagnostic test found in the folder \textit{DiagnosticTest} to check if the two Raspberry Pi are connected correctly. The code can be found both in Appendix 2 and in the folder, there is the example code and example output that can be used to troubleshoot and check that the cable has been plugged in correctly. Make sure to run the code \textit{sndtest.py} on the machine where the GPIO pins are being used, and \textit{rcvtest.py} has to be run on the Raspberry Pi where the USB is plugged in. It's important that you start by running the command \textit{python3 rcvtest.py}, and then run \textit{python3 sndtest.py} on the other Raspberry Pi. In case this process has issues, refer to the list of possible fixes reported here.
+\begin{itemize}
+    \item Check that UART is enabled in \textit{/boot/config.txt} by adding \textit{enable\_UART=1}.
+    \item Check that serial console is disabled by removing \textit{console=serial0,115200} or \textit{console=ttyS0,115200} in \textit{/boot/cmdline.txt}.
+    \item Check for permissions in the dialout group.
+    \item Check that \textit{/dev/serial0} doesn't have a getty console running on it. In case it does, it can be disabled by using the commands: \textit{sudo systemctl stop serial-getty@ttyS0.service} and \textit{sudo systemctl disable serial-getty@ttyS0.service}.
+\end{itemize}
+
+
+\section{Zabbix}
+\subsection{Installation guide}
+Zabbix is the network monitoring tool of choice. For the initial version of the project, version 5.4 was used, running on a Apache web server and MySQL database. It is suggested to follow the installation guide found on the Zabbix website specifically for our Raspberry Pi OS version. The installation guide can be found both at the link \textit{zabbix.com/download} or following these commands below:\\
+\begin{lstlisting}[language = bash]
+# wget https://repo.zabbix.com/zabbix/5.4/raspbian
+/pool/main/z/zabbix-release/zabbix-release_5.4-1+debian10_all.deb
+
+# sudo dpkg -i zabbix-release_5.4-1+debian10_all.deb
+
+# sudo apt update
+
+# sudo apt install zabbix-server-mysql zabbix-frontend-php 
+zabbix-apache-conf zabbix-sql-scripts zabbix-agent
+\end{lstlisting}
+
+Create now the initial database using these commands:
+\begin{lstlisting}
+# sudo apt-get install mariadb-server
+# sudo mysql_secure_installation
+\end{lstlisting}
+During the secure installation set a new root password and reload privilege tables. then proceed with these commands:
+\begin{lstlisting}
+# mysql -uroot -p
+# password
+# mysql> create database zabbix character set utf8 collate utf8_bin;
+# mysql> create user zabbix@localhost identified by 'password';
+# mysql> grant all privileges on zabbix.* to zabbix@localhost;
+# mysql> quit;
+\end{lstlisting}
+Using the preferred password for the Zabbix user.
+Then proceed with this command to initialize the Zabbix database tables:
+
+\begin{lstlisting}
+# zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | 
+mysql -uzabbix -p zabbix
+\end{lstlisting}
+
+And then configure the database for Zabbix server by adding the password to \textit{/etc/zabbix/zabbix\_server.conf} with the parameter \textit{DBPassword=password}.
+
+Before having access to the GUI, using the following commands
+\begin{lstlisting}
+# systemctl restart zabbix-server zabbix-agent apache2
+# systemctl enable zabbix-server zabbix-agent apache2
+\end{lstlisting}
+will reload the new settings.
+Having followed the guide on both machines, access to the frontends should be available using the Raspberry Pi IP adress on our machine. Access the frontend installation by using the url: \textit{http://ipadress/zabbix}. You will be greeted by the welcome screen, where you can pick the installation language. The next screen is a pre-requisites screen, there should be no problems by this point. 
+Now you configure the DB connection, here it is important to insert the password we used earlier to authenticate in MySQL. The other parameters are supposed to look like the ones in the picture below.
+\begin{figure}[h]
+    \centering 
+    \includegraphics[scale = 0.6]{img3}
+    \label{fig:figure2}
+    \caption{Zabbix server parameters}
+\end{figure}
+
+The next screen shows a series of server settings, here you can give a name to the Zabbix installation but it is not mandatory. In the last part of the installation pick the correct timezone. The Zabbix frontend will now be correctly set-up.
+
+\subsection{Configuration adjustments}
+Remembering that the default login credentials are \textit{user: Admin} and \textit{password: zabbix}, login to the GUI, and apply the following adjustments via the frontend:
+\begin{itemize}
+    \item Raspberry Pi private network adjustments:
+    \begin{itemize}
+        \item Change the name of the host "Zabbix server" to "Zabbix server pvt".
+    \end{itemize}
+    \item Raspberry Pi external network adjustments:
+    \begin{itemize}
+        \item Add new host "Zabbix server pvt" without filling the interface parameter.    
+    \end{itemize}
+\end{itemize}
+
+\subsection{Hosts and items}
+It is possible to add more hosts to the configuration, each host is equivalent to a machine you want to monitor. For a host to be monitored, a Zabbix agent instance has to be installed and configured on it. On \textit{zabbix.com/download\_agents} you can find agent install files for most platforms. Once the hosts are configured in the private Zabbix instance, it is then possible to add items, equivalents to the parameters the client wants to track. For a seamless integration, every host and item that is added in the private network, that we want to also see on the public network, has to be configured on the Zabbix instance running in the public network, without the interface parameter and the exact same name. In the same way, every item configured on the private network, has to be configured on the public network, but with the Zabbix trapper type.
+
+\subsection{Triggers and actions}
+Zabbix handles atypical behaviour via a system of triggers and actions. The idea behind this system is the following: The user writes an expression regarding one or more parameters being monitored, if the expression is true at any moment, the trigger is activated and the user is notified in the dashboard. An action can be configured as a reaction to one or more triggers being activated at the same moment, and an action can include a variety of possibilites such as automated commands or notifications via email. 
+The possibilites regarding triggers and the actions connected to the activation of those triggers is endless, as Zabbix allows for a ton of customization options. Use the guide written below to get a general idea of a basic configuration including the configuration of a trigger, linking that trigger to an action, and the configuration of a mail server, so as to receive a notification of the trigger being activated. For the configuration parameters, the Zabbix documentation has a high amount of information in great detail, thus it is highly suggested to follow that for further information. 
+\begin{enumerate}
+    \item Go in the Configuration menu and select hosts.
+    \item In the hosts section, click on "Triggers" on the host for which we want to configure a trigger for, then in the window where all the triggers for the items are shown, click on the button "Create trigger"
+    \item In this section there are a series of mandatory parameters to fill:
+    \begin{itemize}
+        \item Name: The name of the trigger, mandatory parameter.
+        \item Severity: Severity of the trigger. For our use case we will use WARNING.
+        \item Expression: An explanation of the value to monitor, and the parameter for which Zabbix has to set a trigger. In our case the expression will be: $last(Host/Item)>value$. 
+        \item OK event generation: The action that must happen for the trigger to go back to the OK state. Here it is possible to set more expressions to further specify the trigger values. In our case we will leave it as \textit{Expression}
+        \item The other parameters we won't be using in this case, however the parameters are very well explained in the Zabbix documentation. Leave them as default in this case.
+    \end{itemize}
+    \item Having set up the trigger, set up a corresponding action by moving, via the "Configuration" menu, to "Actions -> Trigger actions".
+    \item In this page, all of our triggers can be viewed with their status. A trigger creates an event, and the action is done based on an event.
+    \item To create a new action, click on "Create action". This will open a configuration window with two tabs, "Action" and "Operations".
+    \item In the "Action" tab, fill in the "Name" parameter with what the specific action is connected to. In the "Conditions" section, select the type of condition with which the action should be activated. This section is also really customizable, but for the sake of the demonstration use "Trigger" as type, with operator "Equals", choosing the trigger we built earlier.
+    \item In the operations tab there are a lot of customizable options too. For this guide simply add a basic operation, which sends to a specified user an email. This step gives us the liberty of resolving automatically the problem without sending an email.
+    \item The last part of this guide involves filling the parameters for the mail server. To do so open the "Administration" tab, and find the option "Media types".
+    \item Find the Email parameter and click on it, then based on your Email client fill in the specific SMTP parameters. These are the parameters from which the email will be sent from.
+    \item Now in User settings section, go in the profile subsection. On the top there will be a \textit{Media} tab, click on it, and add the media where you will be receiving the Email from the Zabbix server.
+\end{enumerate}
+Having followed this guide, a basic trigger with a basic action should be configured. Zabbix allows for many more customization options, and even for the possibility to automate the problem solving aspect of the warnings. All the information to do so can be found on the official Zabbix documentation, which is explained much more in depth.
+
+\section{File transfer setup}
+\subsection{Python scripts}
+Having imported the repo in the home directory of the Raspberry Pi on both private and public networks, inside the repo there should be a \textit{/home/pi/DocInternship/send/main.py} file and a \textit{/home/pi/DocInternship/rcv/main.py} file. The content of both of these scripts can be found in Appendix 3. The code which runs on the Raspberry Pi sending data will work under a cron timer of five minutes, and will send data over the last five minutes, using as a starting time parameter, the time found in the file \textit{time.txt}. The receiving script will open at startup, listening for data on the serial port, receiving all the data every time it's being sent, divide it in files of 250 lines for \textit{zabbix\_sender}, and then the script will push the data to the trapper items.  
+
+\subsection{Cron jobs}
+Automation of the send and receive scripts is done via cron jobs, here below is the configuration parameters for both Raspberry Pi machines.
+\subsubsection{Private Raspbery Pi}
+Use command crontab -e to open up the cron job editor, if asked to choose an editor pick the editor you prefer. Include at the end of the file the following command \textit{*/5 * * * *  /usr/bin/python3 /home/pi/DocInternship/send/main.py}. Save and close, making sure that the command has been written correctly using \textit{crontab -l}. This command will have the sender job every 5 minutes. The other command used by cron is the following \textit{@reboot  sudo rm /home/pi/DocInternship/send/time.txt}. This command has the job of removing the file \textit{time.txt} on boot. The reasoning behind the use of this command is the following, with the device being turned off, no data is being captured by Zabbix. The implication of this data missing, is that file transfers starting from that moment will include no data for a long time, thus it makes more sense to delete the file, and have our code create a new file with the current timestamp.
+
+\subsection{Public Raspberry Pi}
+Use command crontab -e to open up the cronjob editor, if asked to choose an editor pick the editor you prefer. Include at the end of the file the following command \textit{@reboot  /usr/bin/python3 /home/pi/DocInternship/rcv/main.py}. Save and close, making sure that the command has been written correctly using \textit{crontab -l}.
+
+\section{Useful features}
+At this point, the system should be working in it's entirety. It is to be considered that Zabbix as a program, and the system as a whole, gives the user the chance for a lot more customization options and usability changes. Below we have a couple of examples.
+
+\subsection{Monitoring}
+Both the send and the receive processes will be running as orphan processes. It is possible to monitor their cron timings by using the commmand \textit{tail -f /var/log/syslog}. The python scripts both also print debug statements on a log file, which can be found by using the command \textit{tail -f /home/pi/DocInternship/send or receive/logger.log}. 
+
+\subsection{Zabbix}
+To make the public Zabbix interface easier to use there are a couple of customization options you can consider. For example Zabbix gives you the opportunity to configure the dashboard to include the most important parameters. The possibility of installing an Android app to access push notification and dashboard is also available. Worthy of note is also the possibility of receving push notifications to telegram for alarms, as opposed to receving them via email.
+
+
+\pagebreak
+\section{Appendix}
+\subsection{Appendix 1: Documentation extract}
+\includegraphics[scale = 0.65]{img1}
+\pagebreak
+\subsection{Appendix 2: Diagnostic output and code example}
+\lstinputlisting[language=Python, caption=sndtest.py]{./DiagnosticTest/sndtest.py}
+\lstinputlisting[language=Python, caption=rcvtest.py]{./DiagnosticTest/rcvtest.py}
+\lstinputlisting[caption=output.txt]{./DiagnosticTest/output.txt}
+\pagebreak
+\subsection{Appendix 3: Data transfer}
+\lstinputlisting[language=Python, caption=main.py]{./Code/send/main.py}
+\lstinputlisting[language=Python, caption=main.py]{./Code/rcv/main.py}
+\bibliographystyle{plainnat}
+\bibliography{/Users/hugo/references/references}
+\end{document}
+ 
