@@ -39,29 +39,6 @@
 ] % after-code
 %%% end
 
-%%% Formattazione dei hyper riferimenti (hyperref)
-% hyperref setup -- http://tex.stackexchange.com/questions/73862/how-can-i-make-a-clickable-table-of-contents
-\definecolor{Aqua}{rgb}{0,0.45,0.45}
-\definecolor{Gold}{rgb}{0.55,0.55,0}
-\hypersetup{
-    bookmarks=true,         % show bookmarks bar?
-    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
-    pdftoolbar=true,        % show Acrobat’s toolbar?
-    pdfmenubar=true,        % show Acrobat’s menu?
-    pdffitwindow=false,     % window fit to page when opened
-    pdfstartview={FitH},    % fits the width of the page to the window
-    pdftitle={Data diodes for secure Industry 4.0 networking: the railway track monitoring use case},    % title
-    pdfauthor={Giuseppe Cervone},     % author
-    linktocpage=false,		% number hyperref'd =true, false otherwise
-    pdfnewwindow=true,      % links in new PDF window
-    colorlinks=true,       % false: boxed links; true: colored links
-    linkcolor=Aqua,          % color of internal links (change box color with linkbordercolor)
-    citecolor=magenta,        % color of links to bibliography
-    filecolor=green,      % color of file links
-    urlcolor=Gold           % color of external links
-}
-%%% end
-
 % https://tex.stackexchange.com/questions/95488/list-of-figures-and-page-numbering
 \makeatletter
 \newcommand{\emptypage}[1]{%
@@ -167,10 +144,21 @@ Qua inizia la numerazione delle pagine, guardare in alto della pagina
 
 \chapter{Industry 4.0 and cybersecurity}
 
+\section{Theory behind the Industry 4.0 movement}
+\section{Typical use cases}
+\section{Industrial IoT and the cybersecurity problem}
 
 \chapter{Alstom group and their problem}
 
+\section{Dissecting Alstom as a company}
+\section{Alstom solution for railway track monitoring}
+focusing on their shift to computer science oriented solutions
+
 \chapter{Project}
+
+\section{Alstom issues with interacting with machines under private networks}
+\section{Goals of the thesis}
+\section{Top-down description of the implemented solution}
 
 \chapter{Conclusion}
 

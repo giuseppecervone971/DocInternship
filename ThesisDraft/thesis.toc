@@ -4,6 +4,14 @@
 \contentsline {chapter}{\numberline {2}Riassunto}{7}{chapter.2}%
 \contentsline {chapter}{\numberline {3}Introduction}{9}{chapter.3}%
 \contentsline {chapter}{\numberline {4}Industry 4.0 and cybersecurity}{11}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Theory behind the Industry 4.0 movement}{11}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Typical use cases}{11}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Industrial IoT and the cybersecurity problem}{11}{section.4.3}%
 \contentsline {chapter}{\numberline {5}Alstom group and their problem}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Dissecting Alstom as a company}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Alstom solution for railway track monitoring}{13}{section.5.2}%
 \contentsline {chapter}{\numberline {6}Project}{15}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Alstom issues with interacting with machines under private networks}{15}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Goals of the thesis}{15}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Top-down description of the implemented solution}{15}{section.6.3}%
 \contentsline {chapter}{\numberline {7}Conclusion}{17}{chapter.7}%
