@@ -51,7 +51,6 @@ The Raspberry Pi 3 models should be able to handle the data size and the process
         \item 16GB microSD card
     \end{itemize}
 \end{itemize}
-
 Using the RPI-Imager tool, install the latest Raspberry PI OS Lite image. If you don't want to use a monitor or keyboard to run the first configuration, it is possible to enable WiFi and SSH capabilites at this stage. If you want to do so, after having created the image, include two files in the \textit{boot} folder on the Raspberry Pi SD card. The first file, is a \textit{wpa\_supplicant.conf} file, used to enable WiFi. An example of this type of file can be found here below:
 \begin{lstlisting}
 country=<Insert 2 letter ISO 3166-1 country code here>
@@ -62,9 +61,9 @@ network={
  psk="<Password for your wireless LAN>"
 }
 \end{lstlisting}
-For SSH support, it's enough to include a \textit{ssh} file in the boot folder.
-Upon first boot up, the Raspberry Pi login is username: pi, password: raspberry.
-As Raspberry Pi OS Lite is an OS without a desktop environment, so getting to system settings is done using the utility \textit{raspi-config}. 
+For SSH support, it's enough to include a file named \textit{ssh} in the boot folder, without extensions and without anything written inside.
+Upon first boot up, the default Raspberry Pi login credentials are username: pi, password: raspberry.\\
+As Raspberry Pi OS Lite is an OS without a desktop environment, getting to system settings is done using the utility \textit{raspi-config}. 
 Using the command \textit{sudo raspi-config}, you open the utility, once in the main menu change these specific settings:
 \begin{itemize}   
     \item In the system options:
@@ -74,8 +73,8 @@ Using the command \textit{sudo raspi-config}, you open the utility, once in the 
     \end{itemize}
     \item In the interface options:
     \begin{itemize}
-        \item Enable SSH if you haven't done this before. Using SSH is suggested for development on these units, as they are installs without a DE/WM(desktop environment/window manager) configuration, and thus it's best to use your preferred terminal emulator.
-        \item Enable Serial interface, remembering to disable login shell but enable serial interface.
+        \item Enable SSH if you haven't done this before. Using SSH is suggested for development on these units, as they are installs without a desktop environment/window manager configuration, and thus it's best to use your preferred terminal emulator.
+        \item Use the setting \textit{Serial interface}, remembering to disable login shell but enable serial interface.
     \end{itemize}
     \item In the localisation options:
         \begin{itemize}
@@ -93,14 +92,14 @@ Using the command \textit{sudo raspi-config}, you open the utility, once in the 
         \item Run \textit{sudo apt-get install python3-pip} to install Python's package manager.
         \item Run \textit{pip3 install pyserial} to install the serial library used to have the machines comunicate.
         \item Run \textit{pip3 install pyzabbix} to install the Python library used to interface with the Zabbix API. This packet only has to be installed on the Raspberry working on the private network.
-        \item Run \textit{sudo apt-get install zabbix-sender} to install Zabbix sender, the utility we use to interface with Zabbix trapper items.
-        \item Run \textit{sudo apt-get install git} to install the git program. Useful to clone into the directory of this program.
+        \item Run \textit{sudo apt-get install zabbix-sender} to install Zabbix sender, the utility we use to interface with Zabbix trapper items. This packet only has to be installed on the Raspberry Pi machine localized on the public network.
+        \item Run \textit{sudo apt-get install git} to install the git program. Useful to clone into the directory of this software.
     \end{itemize}
 \end{itemize}
 
 \subsection{Serial cable}
 The cable used for this project is a TTL-232R-3V3 cable, which is USB-to-serial, with +3.3V TTL levels UART signals. The cable has 6-pins on one end, and USB on the other.
-With the cable plugged in as shown in Figure 1, run the command \textit{ls /dev/tty*} on both Raspberry Pi machines to check that the ports used to send and receive data are available. The port that's sending data will be \textit{/dev/ttyS0}, while for the other port it should be \textit{/dev/ttyUSB0}. In older Pi models, instead of using \textit{/dev/ttyS0}, the port that was used instead was \textit{/dev/ttyAMA0}, thus Raspian will always map those serial ports to the alias \textit{/dev/serial0}, so it is suggested to use the alias in programming as it doesn't differentiate between Raspberry Pi Models. As mentioned earlier in Figure 1 there is an image showing how the cable is meant to be plugged in, while in the Appendix 1 there is the full extract from the documentation of the cable, showing the functionality of all the cable pins in detail.
+With the cable plugged in as shown in Figure 1, run the command \textit{ls /dev/tty*} on both Raspberry Pi machines to check that the ports used to send and receive data are available. The port that's sending data will be \textit{/dev/ttyS0}, while for the other port it should be \textit{/dev/ttyUSB0}. In older Pi models, instead of using \textit{/dev/ttyS0}, the port that was used instead to access the pins was the port \textit{/dev/ttyAMA0}. This change in naming caused incompatibility in some programs, thus Raspian will always map ports \textit{S0} and \textit{AMA0} to the alias \textit{/dev/serial0}, so it is suggested to use the alias in programming. As mentioned earlier in Figure 1 there is an image showing how the cable is meant to be plugged in, while in the Appendix 1 there is the full extract from the documentation of the cable, explaining the functionality of all the cable pins in detail.
 
 \begin{figure}[h!]
     \centering 
@@ -116,7 +115,7 @@ The cable pinout is peculiar as most pins are not used. The pins that get used a
 With the current setup ready, use the diagnostic test found in the folder \textit{DiagnosticTest} to check if the two Raspberry Pi are connected correctly. The code can be found both in Appendix 2 and in the folder, there is the example code and example output that can be used to troubleshoot and check that the cable has been plugged in correctly. Make sure to run the code \textit{sndtest.py} on the machine where the GPIO pins are being used, and \textit{rcvtest.py} has to be run on the Raspberry Pi where the USB is plugged in. It's important that you start by running the command \textit{python3 rcvtest.py}, and then run \textit{python3 sndtest.py} on the other Raspberry Pi. In case this process has issues, refer to the list of possible fixes reported here.
 \begin{itemize}
     \item Check that UART is enabled in \textit{/boot/config.txt} by adding \textit{enable\_UART=1}.
-    \item Check that serial console is disabled by removing \textit{console=serial0,115200} or \textit{console=ttyS0,115200} in \textit{/boot/cmdline.txt}.
+    \item Check that serial console is disabled by removing lines \textit{console=serial0,115200} or \textit{console=ttyS0,115200} in \textit{/boot/cmdline.txt}.
     \item Check for permissions in the dialout group.
     \item Check that \textit{/dev/serial0} doesn't have a getty console running on it. In case it does, it can be disabled by using the commands: \textit{sudo systemctl stop serial-getty@ttyS0.service} and \textit{sudo systemctl disable serial-getty@ttyS0.service}.
 \end{itemize}
@@ -167,7 +166,7 @@ Before having access to the GUI, using the following commands
 # systemctl enable zabbix-server zabbix-agent apache2
 \end{lstlisting}
 will reload the new settings.
-Having followed the guide on both machines, access to the frontends should be available using the Raspberry Pi IP adress on our machine. Access the frontend installation by using the url: \textit{http://ipadress/zabbix}. You will be greeted by the welcome screen, where you can pick the installation language. The next screen is a pre-requisites screen, there should be no problems by this point. 
+Having followed the guide on both machines, access to the frontends should be available by connecting to the URL \textit{http://RaspberryPiIPadress/zabbix}. You will be greeted by the welcome screen, where you can pick the installation language. The next screen is a pre-requisites screen, where Zabbix should find no problems. 
 Now you configure the DB connection, here it is important to insert the password we used earlier to authenticate in MySQL. The other parameters are supposed to look like the ones in the picture below.
 \begin{figure}[h]
     \centering 
@@ -183,11 +182,11 @@ Remembering that the default login credentials are \textit{user: Admin} and \tex
 \begin{itemize}
     \item Raspberry Pi private network adjustments:
     \begin{itemize}
-        \item Change the name of the host "Zabbix server" to "Zabbix server pvt".
+        \item Change the name of the host \textit{Zabbix server} to \textit{Zabbix server pvt}.
     \end{itemize}
     \item Raspberry Pi external network adjustments:
     \begin{itemize}
-        \item Add new host "Zabbix server pvt" without filling the interface parameter.    
+        \item Add new host \textit{Zabbix server pvt} without filling the interface parameter.
     \end{itemize}
 \end{itemize}
 
@@ -199,7 +198,7 @@ Zabbix handles atypical behaviour via a system of triggers and actions. The idea
 The possibilites regarding triggers and the actions connected to the activation of those triggers is endless, as Zabbix allows for a ton of customization options. Use the guide written below to get a general idea of a basic configuration including the configuration of a trigger, linking that trigger to an action, and the configuration of a mail server, so as to receive a notification of the trigger being activated. For the configuration parameters, the Zabbix documentation has a high amount of information in great detail, thus it is highly suggested to follow that for further information. 
 \begin{enumerate}
     \item Go in the Configuration menu and select hosts.
-    \item In the hosts section, click on "Triggers" on the host for which we want to configure a trigger for, then in the window where all the triggers for the items are shown, click on the button "Create trigger"
+    \item In the hosts section, click on \textit{Triggers} on the host for which we want to configure a trigger for, then in the window where all the triggers for the items are shown, click on the button \textit{Create trigger}.
     \item In this section there are a series of mandatory parameters to fill:
     \begin{itemize}
         \item Name: The name of the trigger, mandatory parameter.
@@ -208,12 +207,12 @@ The possibilites regarding triggers and the actions connected to the activation 
         \item OK event generation: The action that must happen for the trigger to go back to the OK state. Here it is possible to set more expressions to further specify the trigger values. In our case we will leave it as \textit{Expression}
         \item The other parameters we won't be using in this case, however the parameters are very well explained in the Zabbix documentation. Leave them as default in this case.
     \end{itemize}
-    \item Having set up the trigger, set up a corresponding action by moving, via the "Configuration" menu, to "Actions -> Trigger actions".
+    \item Having set up the trigger, set up a corresponding action by moving, via the \textit{Configuration} menu, to \textit{Actions}, option \textit{Trigger actions}.
     \item In this page, all of our triggers can be viewed with their status. A trigger creates an event, and the action is done based on an event.
-    \item To create a new action, click on "Create action". This will open a configuration window with two tabs, "Action" and "Operations".
-    \item In the "Action" tab, fill in the "Name" parameter with what the specific action is connected to. In the "Conditions" section, select the type of condition with which the action should be activated. This section is also really customizable, but for the sake of the demonstration use "Trigger" as type, with operator "Equals", choosing the trigger we built earlier.
+    \item To create a new action, click on \textit{Create action}. This will open a configuration window with two tabs, \textit{Action} and \textit{Operations}.
+    \item In the \textit{Action} tab, fill in the \textit{Name} parameter with what the specific action is connected to. In the \textit{Conditions} section, select the type of condition with which the action should be activated. This section is also really customizable, but for the sake of the demonstration use \textit{Trigger} as type, with operator \textit{Equals}, choosing the trigger we built earlier.
     \item In the operations tab there are a lot of customizable options too. For this guide simply add a basic operation, which sends to a specified user an email. This step gives us the liberty of resolving automatically the problem without sending an email.
-    \item The last part of this guide involves filling the parameters for the mail server. To do so open the "Administration" tab, and find the option "Media types".
+    \item The last part of this guide involves filling the parameters for the mail server. To do so open the \textit{Administration} tab, and find the option \textit{Media types}.
     \item Find the Email parameter and click on it, then based on your Email client fill in the specific SMTP parameters. These are the parameters from which the email will be sent from.
     \item Now in User settings section, go in the profile subsection. On the top there will be a \textit{Media} tab, click on it, and add the media where you will be receiving the Email from the Zabbix server.
 \end{enumerate}
