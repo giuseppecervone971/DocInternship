@@ -1,0 +1,6 @@
+b'Write counter: 0\n'
+b'Write counter: 1\n'
+b'Write counter: 2\n'
+b'Write counter: 3\n'
+b'Write counter: 4\n'
+b'Write counter: 5\n'

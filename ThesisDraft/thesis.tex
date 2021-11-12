@@ -19,6 +19,11 @@
 \usepackage{xcolor}
 \usepackage{geometry}
 \usepackage{layout}		% http://tex.stackexchange.com/questions/50258/margins-of-book-class
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
+
 \input{fixpseudocode}	% for pseudocodes
 
 %%% Formattazione del header del Capitolo
@@ -158,11 +163,170 @@ focusing on their shift to computer science oriented solutions
 \chapter{Project}
 
 \section{Alstom issues with interacting with machines under private networks}
+The aim of my internship project with Alstom Group is to start by developing what in cybersecurity and IoT is called a data diode, a unidirectional communication device for data exchange.
+The data that will be exchanged is diagnostic data caught by network monitoring program Zabbix. Zabbix will catch data from devices inside the protected network with a server running on a Raspberry Pi 3 and recreate the same Zabbix setup with the protected network values on the unprotected network. This Zabbix server will also run on a Raspberry Pi 3. These two devices are also the base behind the diode itself.
+The importance behind this project is filling a market void created by industrial data diodes, which are very expensive devices. In use cases like this one, where the protected -> unprotected network links to make are plenty, implementing a high amount of them is a very costly move, but with software implementations (firewalls) or hardware implementations (serial or optical communication built to be unidirectional) it is possible to have cheaper data diodes that are almost as functional for most use case scenario. As mentioned earlier, the setup includes two Raspberry Pi model 3 computers, and a TTL-232R-3V3 cable with a specific configuration which we will highlight later.
 \section{Goals of the thesis}
 \section{Top-down description of the implemented solution}
+As far as choosing the best Raspberry Pi model for the job, I have chosen to use the Raspberry Pi 3. For this type of project, finding a machine that can be used without cooling, that has enough RAM to handle possible big data chunks and that has a fast enough CPU at a low enough cost is key. Needing for it not to be cooled removes the Raspberry Pi 4 from the equation, since it prefers having a cooling solution and the increased clock speeds won't help with serial communication limitations, on the other hand the Raspberry Pi 2 already comes with 1Gb Ram, but misses the clock speed needed for multiple programs to run at a good enough speed.
+This particular machine should be able to handle the data size we are planning to share (around 1Gb/day). The machines are configured as follows:
+\begin{itemize}
+    \item Raspberry Pi 3 Model B Ver1.2:
+    \begin{itemize}
+        \item Quad Core 1.2GHz Broadcom BCM2837 64bit CPU
+        \item 1GB RAM
+        \item BCM43438 wireless LAN and Bluetooth Low Energy (BLE) on board
+        \item 100 Base Ethernet
+        \item 40-pin extended pinout with GPIO support
+        \item 4 USB 2 ports
+        \item 4 Pole stereo output and composite video port
+        \item Full size HDMI
+        \item CSI camera port for connecting a Raspberry Pi camera
+        \item DSI display port for connecting a Raspberry Pi touchscreen display
+        \item Micro SD port for loading your operating system and storing data
+        \item Upgraded switched Micro USB power source up to 2.5A
+        \item Raspberry Pi OS Lite (latest version)
+        \item 16GB microSD card
+    \end{itemize}
+\end{itemize}
+
+Using the RPI-Imager tool I installed the latest Raspberry PI OS image. Upon first boot up, remember that RPi login is username: pi, password: raspberry.
+As Raspberry Pi OS Lite is an OS without a desktop environment, we don't have a systems setting manager with a GUI, luckily we can use the utility \textit{raspi-config} to enable a series of features useful for testing software.
+Using the command \textit{sudo raspi-config} we can open the utility, once in the main menu we change these specific settings:
+\begin{itemize}
+    \item In the system options:
+    \begin{itemize}
+        \item Enable WIFI for SSH purposes.
+        \item Change username and password if needed.
+    \end{itemize}
+    \item In the interface options:
+    \begin{itemize}
+        \item Enable SSH. Using SSH is suggested for development on these units, as they are installs without a DE/WM(desktop environment/window manager) configuration, and thus it's best to use your preferred terminal emulator.
+        \item Enable Serial interface, remembering to disable login shell but enable serial interface.
+    \end{itemize}
+    \item Disable bluetooth:
+    \begin{itemize}
+        \item We won't be using bluetooth for the project, so we disable it, making the final product more secure.
+        \item We disable bluetooth by adding \textit{dtoverlay=disable-bt} in \textit{/boot/config.txt}.
+    \end{itemize}
+    \item Troubleshooting
+    \begin{itemize}
+        \item Check that UART is enabled in \textit{/boot/config.txt} by adding \textit{enable\_UART=1}.
+        \item Check that serial console is disabled by removing \textit{console=serial0,115200} or \textit{console=ttyS0,115200} in \textit{/boot/cmdline.txt}.
+        \item Check for permissions in the dialout group.
+        \item Check that \textit{/dev/serial0} doesn't have a getty console running on it. In case it does, it can be disabled by using the commands: \textit{sudo systemctl stop serial-getty@ttyS0.service} and \textit{sudo systemctl disable serial-getty@ttyS0.service}.
+    \end{itemize}
+    \item Additional software:
+    \begin{itemize}
+        \item Run \textit{sudo apt-get install python3} to install Python in it's latest version.
+        \item Run \textit{sudo apt-get install python3-pip} to install Python's package manager.
+        \item Run {pip install pyserial} to install the serial library that we will be using to have the machines comunicate.
+    \end{itemize}
+    \item Run \textit{sudo apt-get upgrade} to make sure all packages are up to date.
+\end{itemize}
+
+\subsection{Serial cable}
+As mentioned earlier, the serial communication will go through a TTL-232R-3V3 cable, which is USB-to-serial, with +3.3V TTL levels UART signals. The cable has 6-pins on one end, and USB on the other.
+With the cable plugged in we run the command \textit{ls /dev/tty*} on both RPi machines so we have an idea of what port we use to send or receive data on each RPi in the serial communication, for the port that's sending data it will be \textit{/dev/ttyS0}, while for the other port it should be \textit{/dev/ttyUSB0}. Raspian will always map the serial port to the alias \textit{/dev/serial0}, so it is suggested to use the alias in programming as it doesn't differentiate between Raspberry Pi Models. Here below in Figure 1 there is an image showing how the cable is meant to be plugged in, while in the Appendix 1 there is the full extract from the documentation of the cable, showing the functionality of all the cable pins in detail.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale = 0.5]{img2}
+    \caption{Pinout diagram}
+    \label{fig:figure1}
+\end{figure}
+
+The cable pinout is peculiar as most pins are not used. The pins that get used are the ground pin and the pin that sends data over to the other RPi machine. Yellow pin is plugged in GPIO14, ground can be plugged in any of the RPi ground pins.
+
+\subsection{How is it a diode?}
+The importance behind this project is creating a diode-type communication, thus a unilateral comunication from a protected network to less protected or unprotected network. Below shown in Figure 2 how the two RPi interface within the network of Alstom devices, that is the first piece that shows how this setup has diode communication. The second piece is the pinout shown in Figure 1 in the chapter above, we can see that in the RPi placed in the private network, the serial pins that are plugged in are GND and TX, thus no data will be received through the cable by the RPi in the private network (RX pin is not plugged). These two factors create unidirectional communication similar to that of a diode.
+\begin{figure}[h!]
+    \includegraphics[scale = 1]{img3}
+    \caption{Network diagram}
+    \label{fig:figure2}
+\end{figure}
+
+
+\section{Program versions}
+\subsection{Diagnostic test}
+The objective of this test is to check if the two RPi are connected correctly. In Appendix 2 we have example code and example output that can be used to troubleshoot and check that the cable has been plugged in correctly.
+In case this program won't run correctly, refer back to the troubleshooting section earlier. Make sure to run the code \textit{sndtest.py} on the machine where the GPIO pins are being used, and \textit{rcvtest.py} has to be run on the RPi where the USB is plugged in.
+The scripts are started by running the command \textit{python3 rcvtest.py}, and then run \textit{python3 sndtest.py} on each machine.
+
+\subsection{Data diode 0.1}
+In this initial implementation we switch from sending text to sending an actual file via serial communication. The improvements from this version to the next will be improved baudrate, meaning faster file transfer.
+In the next version SHA256 checksum will also be implemented to make sure file transfer is working correctly. Future considered improvements are to include a handshake system via CTS/RTS signals and cleaner code in general. The code can be found in Appendix 3.
+
+\subsection{Data diode 0.2}
+This version of the program has SHA256 integration to validate file transfer and improved transfer speeds thanks to a much better baudrate.
+The limitations with this version of the program is that because of limitations of USB2.0 and limitations of the UART communication protocol, 115200 baudrate seems to be the maximum baudrate for communication without introducing errors, meaning that improving transfer speeds can't be done by increasing the baudrate, but improvements have to be found in other points of the code.
+A comparative of baudrates can be seen in Table 1, where examples of how increasing baudrates helps with transfer speeds, and also a small example of whether calculating SHA256 while sending the file slows down communication, it will still be wise to split file transfer and calculations. Another important detail to note from the table is the approximate time for 1Gb file transfer, which given the current times might be a little too slow. In appendix 4 there are code examples for this version of the program as well.
+
+\begin{table}[h!]
+    \begin{tabular}{@{}|l|l|l|@{}}
+        \toprule
+        File size (mb) & Time (s) & SHA256 \\ \midrule
+        1(9600baud)    & 1065.9   & Yes    \\ \midrule
+        1              & 88.8     & No     \\ \midrule
+        1              & 88.8     & Yes    \\ \midrule
+        5              & 448      & Yes    \\ \midrule
+        10             & 892.7    & Yes    \\ \midrule
+        20             & 1785.4   & Yes    \\ \midrule
+        1000           & ~89250   & Yes    \\ \bottomrule
+    \end{tabular}
+    \caption{Transfer times comparative}
+    \label{tab:table 1}
+\end{table}
+
+\subsection{Data diode 0.3}
+The aim with version 0.3 of the program is to initially format the code so as to make it much more readable. As far as technical improvements, this code had the massive flaw of wanting to send any type of file, but but using a transfer protocol built for text files, while at the same time opening the files in byte read as that's the only way of sending data through the serial port. Thus we will include byte read with a chunk size to be defined, intead of \textit{readline()}, so as to make less calls to the read and write methods, also we will be splitting up the SHA256 algorithm from the copying of file contents. Program will be upgraded to version 1.0 when it will be fully optimized for the final app. Code is in the appendix.
+
+
+\section{Network monitoring}
+\subsection{Why do we need network monitoring}
+Having created a working data diode clone, we move on to the network monitoring part of the project. We need network monitoring software, so as to have a way to create the data that we then transfer via diode. Obviously the data will be, in the final version, a breakdown of the private network diagnostic values caught by the network monitor we choose. This data will be used to create a simulated version of the private network on the public network Raspberry Pi.
+We will have thus to pick a network manager able to export and import data. \textit{PRTG Network Manager} is considered the best tool for this type of job, but it is only made to run on Windows server, and it is a closed source solution, so ARM based open source solution is preferred.
+Well known market solutions for network monitoring are the following:
+\begin{itemize}
+    \item Cacti
+    \item Nagios
+    \item Zabbix
+\end{itemize}
+These solutions are all open source, all working on ARM and are all based on a LAMP stack. LAMP is an acronym for Linux, Apache, MySQL and PHP, but these programs are all flexible enough to be able to interchange Apache with Nginx or MySQL with database management systems such as PostgreSQL.
+
+\subsubsection{Comparison between network monitoring software}
+Starting from the premise that all these softwares allow for export of configuration and data, in picking the best network monitoring software for the job I will also have to evaluate other factors including the feasability of recreating the simulation of the protected network on the unprotected network,
+Starting with Cacti, it's a stable solution since it has been in development since 2001. This leads sadly to it having less modern features compared to some of the other network managers, and this lack of features leads to Cacti being used less in the user space. Even if some of these features won't be used for our project, picking a program that has lots of users will make debugging for errors easier, as the community will have much more people around it. Cacti has a very straightforward way of importing data into it, but it has very little documentation on the idea of recreating a device which is not actually on the current network, so I decided to look at other options.
+Nagios is the second options that I analyzed, it is stable, widely used, modern and has a big user space, sadly it has a very limited free version, and it is very comparable to Zabbix, which instead is free. Zabbix is the option I ended up going with for all the reasons mentioned above inlcuing some other factors such as the fact that their Raspberry Pi install guide is also very detailed, it includes the utility \textit{zabbix\_sender} which we can use to import data, and has another fan-made utility called \textit{Zabbix Agent Simulator} which we can use to create devices on a network where we don't have one. Being able to do exactly that, and import our data from the private network on those devices should give us the exact solution we are looking for.
+
+\subsection{How does Zabbix work?}
+Zabbix as a network monitoring tool has a series of main components, these are hosts (or agents), items, triggers.
+Hosts are the devices which we want to monitor,
+
+\subsection{Installation guide}
+Initially I'll install Zabbix on the private Raspberry Pi for testing purposes, after having a working Zabbix on the private Raspberry Pi, I will work with the API and the other tools I mentioned to simulate setups. The install guide I followed is the one on the \textit{zabbix.com/download} websites, which has a detailed guide for exactly our RPi setup. Beware that the MySQL version in the install guide could be outdated, so I suggest updating to the newest version running the command \textit{sudo apt-get install mysql} before creating the database host. I also suggest \textit{mysql\_secure\_installation} as away to correctly set-up the MySQL installation on the machine.
+
 
 \chapter{Conclusion}
 
 \bibliographystyle{plain}
+
+\chapter{Appendix}
+\subsection{Appendix 1: Documentation extract}
+\includegraphics[scale = 0.65]{img1}
+\pagebreak
+\subsection{Appendix 2: Diagnostic output and code example}
+\lstinputlisting[language=Python, caption=sndtest.py]{./DiagnosticTest/sndtest.py}
+\lstinputlisting[language=Python, caption=rcvtest.py]{./DiagnosticTest/rcvtest.py}
+\lstinputlisting[caption=output.txt]{./DiagnosticTest/output.txt}
+\pagebreak
+\subsection{Appendix 3: Data diode 0.1 code example}
+\lstinputlisting[language=Python, caption=sndfile0.1.py]{./1FileTransfer/sndfile.py}
+\lstinputlisting[language=Python, caption=rcvfile0.1.py]{./1FileTransfer/rcvfile.py}
+\pagebreak
+\subsection{Appendix 4: Data diode 0.2 code example}
+\lstinputlisting[language=Python, caption=sndfile0.2.py]{./2FileTransfer/sndfile.py}
+\lstinputlisting[language=Python, caption=rcvfile0.2.py]{./2FileTransfer/rcvfile.py}
+
 
 \end{document} 
