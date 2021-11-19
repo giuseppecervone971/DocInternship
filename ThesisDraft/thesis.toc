@@ -4,31 +4,31 @@
 \contentsline {chapter}{\numberline {2}Riassunto}{7}{chapter.2}%
 \contentsline {chapter}{\numberline {3}Introduction}{9}{chapter.3}%
 \contentsline {chapter}{\numberline {4}Industry 4.0 and cybersecurity}{11}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Theory behind the Industry 4.0 movement}{11}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Typical use cases}{11}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Industrial IoT and the cybersecurity problem}{11}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Alstom group and their problem}{13}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Dissecting Alstom as a company}{13}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Alstom solution for railway track monitoring}{13}{section.5.2}%
-\contentsline {chapter}{\numberline {6}Project}{15}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Alstom issues with interacting with machines under private networks}{15}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Goals of the thesis}{16}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Top-down description of the implemented solution}{16}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Serial cable}{18}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}How is it a diode?}{19}{subsection.6.3.2}%
-\contentsline {section}{\numberline {6.4}Program versions}{19}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Diagnostic test}{19}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Data diode 0.1}{20}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Data diode 0.2}{20}{subsection.6.4.3}%
-\contentsline {subsection}{\numberline {6.4.4}Data diode 0.3}{21}{subsection.6.4.4}%
-\contentsline {section}{\numberline {6.5}Network monitoring}{22}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Why do we need network monitoring}{22}{subsection.6.5.1}%
-\contentsline {subsubsection}{Comparison between network monitoring software}{22}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}How does Zabbix work?}{23}{subsection.6.5.2}%
-\contentsline {subsection}{\numberline {6.5.3}Installation guide}{23}{subsection.6.5.3}%
-\contentsline {chapter}{\numberline {7}Conclusion}{25}{chapter.7}%
-\contentsline {chapter}{\numberline {8}Appendix}{27}{chapter.8}%
-\contentsline {subsection}{\numberline {8.0.1}Appendix 1: Documentation extract}{27}{subsection.8.0.1}%
-\contentsline {subsection}{\numberline {8.0.2}Appendix 2: Diagnostic output and code example}{28}{subsection.8.0.2}%
-\contentsline {subsection}{\numberline {8.0.3}Appendix 3: Data diode 0.1 code example}{30}{subsection.8.0.3}%
-\contentsline {subsection}{\numberline {8.0.4}Appendix 4: Data diode 0.2 code example}{32}{subsection.8.0.4}%
+\contentsline {section}{\numberline {4.1}The Industry 4.0 movement}{12}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Typical use cases}{13}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Industrial IoT and the cybersecurity problem}{13}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Alstom group and their problem}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Dissecting Alstom as a company}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Alstom solution for railway track monitoring}{15}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Project}{17}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Alstom issues with interacting with machines under private networks}{17}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Goals of the thesis}{18}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Top-down description of the implemented solution}{18}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Serial cable}{20}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}How is it a diode?}{21}{subsection.6.3.2}%
+\contentsline {section}{\numberline {6.4}Program versions}{21}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Diagnostic test}{21}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Data diode 0.1}{22}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Data diode 0.2}{22}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}Data diode 0.3}{23}{subsection.6.4.4}%
+\contentsline {section}{\numberline {6.5}Network monitoring}{24}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Why do we need network monitoring}{24}{subsection.6.5.1}%
+\contentsline {subsubsection}{Comparison between network monitoring software}{24}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}How does Zabbix work?}{25}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Installation guide}{25}{subsection.6.5.3}%
+\contentsline {chapter}{\numberline {7}Conclusion}{27}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Appendix}{29}{chapter.8}%
+\contentsline {subsection}{\numberline {8.0.1}Appendix 1: Documentation extract}{29}{subsection.8.0.1}%
+\contentsline {subsection}{\numberline {8.0.2}Appendix 2: Diagnostic output and code example}{30}{subsection.8.0.2}%
+\contentsline {subsection}{\numberline {8.0.3}Appendix 3: Data diode 0.1 code example}{32}{subsection.8.0.3}%
+\contentsline {subsection}{\numberline {8.0.4}Appendix 4: Data diode 0.2 code example}{34}{subsection.8.0.4}%
