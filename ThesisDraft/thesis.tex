@@ -85,7 +85,7 @@
 	\vspace*{1.5cm}
 	\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt
 	\vspace*{10mm}
-	\Huge \emph{\textbf{Data diodes for secure Industry 4.0 networking: \\ The railway track monitoring use case}}
+	\Huge \emph{\textbf{Data diodes for secure Industry 4.0 networking: \\ A railway environment monitoring use case}}
 	\vspace*{10mm}
 	\hrule width \hsize height 2pt
 	\vspace*{1mm}
@@ -119,12 +119,42 @@
 \thispagestyle{empty}
 \addtocontents{toc}{\protect\thispagestyle{empty}}	% http://tex.stackexchange.com/questions/2995/removing-page-number-from-toc
 
-\chapter{Ringraziamenti}
-
 
 \chapter{Riassunto}
 
-Qui, inserire un breve riassunto del lavoro in italiano.
+In questo lavoro di tesi si andranno a discutere i concetti di Industria 4.0, Industrial
+Internet of Things e Cybersecurity. Verranno utilizzate le definizioni di questi concetti
+per descrivere il flusso lavorativo della sede di Bologna di Alstom, compagnia per cui
+è stato svolto il lavoro di tirocinio esposto in questa tesi. Alstom è un’azienda
+multinazionale che si occupa di produzione e di monitoraggio, sia delle vie
+ferroviarie, che dei veicoli che viaggiano su di esse. In particolare, la sede di
+Bologna viene considerata un centro di eccellenza per quello che è il monitoraggio.
+Si andrà quindi a discutere del pensiero e della struttura della soluzione studiata al
+fine di risolvere il problema posto da Alstom, dei singoli componenti che ne fanno
+parte e di come è possibile ricreare la suddetta soluzione in caso si volesse testarne
+le funzionalità e, infine, si descriverà anche degli eventuali miglioramenti identificati
+che potrebbero essere applicati in futuro.
+La soluzione studiata, in dettaglio, si pone come obiettivo quello di tentare di
+replicare il funzionamento di un diodo dati a basso costo. Un diodo dati è un
+dispositivo di uso comune nel settore della cyber security, che permette la
+comunicazione unidirezionale di dati da una rete protetta verso una rete pubblica.
+Questo dispositivo offre quindi l’opportunità a chi lo utilizza, di ottenere informazioni
+sui dati presenti in una rete privata, senza la necessità di instaurare un canale di
+comunicazione diretto con essa. Il diodo dati in questo caso verrà simulato grazie
+alla comunicazione seriale tramite lo standard RS-232, comunicazione che viene
+resa unidirezionale tagliando il terminale responsabile per l’invio di dati verso il lato
+privato della comunicazione. Il cavo seriale in questione verrà connesso a due
+microcomputer, in dettaglio due Raspberry Pi 3. Questi ultimi saranno responsabili
+della sincronizzazione nella comunicazione e di rendere le informazioni comunicate
+facilmente da reperibili. Questo processo verrà svolto tramite l’ausilio di Zabbix, un
+software di monitoraggio per reti che offre anche la possibilità all’utente di simulare
+un ambiente con dati provenienti da altri fonti. Saranno quindi poste in esecuzione
+due istanze di Zabbix, la prima che sarà dislocata sulla Raspberry identificata come
+“privata”, e che catturerà i dati dai dispositivi nella rete privata, e l’altra che andrà ad
+essere collocata sulla Raspberry definita "pubblica", la quale riceve i dati tramite
+comunicazione unidirezionale. Questo scenario andrà a creare sulla seconda
+instanza di Zabbix, menzionata in precedenza, una replica di quello che succede
+realmente sulla rete privata e protetta.
 
 
 \chapter{Introduction}
@@ -138,31 +168,96 @@ Qui, inserire un breve riassunto del lavoro in italiano.
 \fancyhead[OL]{\textbf{\textsf{\nouppercase {\rightmark}}}}
 %%% end
 
+Industry 4.0, cybersecurity, Internet Of Things, these are all terms that 30 years ago,
+when the idea of “Internet” first came into our lives, would have been considered
+gibberish, but that now commonly used in today’s society, but how did they come to
+be? What are they exactly? And how can they improve our lives? These and many
+other questions are what I will try to tackle with my thesis work, looking at their
+advent, the modern perception of them, how these concepts are changing the
+industrial space, and how it is possible to build something by putting all these
+concepts together to make someone’s life a little easier.
+I will do so by dissecting in the first chapter of this thesis the concept of Industry 4.0
+and how it’s advent led to Internet of Things devices becoming ever more prevalent
+in our day to day use. This will also help us understand why the idea of cybersecurity
+is not to be ignored. Then in chapter two, I will look at the thought process of a
+multinational company, trying to understand their workflow, and how the researching
+of new solutions to improve their services comes to fruition. These new solutions
+obviously are compliant with the concepts mentioned earlier. With the information
+gathered about the company, and with full knowledge of the new possibilities given
+to us by the enabling technologies of Industrial IoT, I will dissert in the third chapter
+how a IIoT solution for a multinational is built. In my particular case it will be a
+solution with a microprocessor, with interconnectivity between devices, and with the
+possibility of monitoring devices under a network.
+
 %%% all'inizio di ogni capitolo, questa impostazione rimuove il numero di pagina, provare a commentare per vedere la differenza
 \thispagestyle{empty}
 
-asd
 \newpage
 
 \chapter{Industry 4.0 and cybersecurity}
-A common practice in studying history is ‘Periodization’. The concept behind it is that dividing historical periods in well defined time frames, allows us to refer more easily to a period of time and allows us to better understand the connections that current events might have to events which happened in the past [IAT14]. An example of such periodization, which uses a timeframe, events linked to that specific timeframe, and the idea that an event can be linked to a past event is the categorization of Industrial Revolutions.
-The Industrial Revolutions, which have been divided in four different timeframes, are a  perfect example of the concept of Periodization. Having four different time periods being referred to as industrial revolutions, highlights connections in the events happening between each one of those time frames in history, it is also worth considering that when someone refers to each of the Industrial Revolutions, the time period which they are referring to is clear.
-The connection between each of the Industrial Revolutions is that in each one of these time periods, introductions of new revolutionary technologies occured in the manufacturing space. The First Industrial Revolution is characterized by the introduction of the first machinery, which substituted hand production methods for some of the tasks. The Second Industrial Revolution, usually linked to World War I, saw the widespread adoption of technological systems such as telegraphs and railroad networks amongst other introductions such as assembly lines. The Third Industrial Revolution saw the introduction of the first automated tasks and the first computers introduced in the assembly line. The Fourth Industrial Revolution, which is also the one we are currently living, is the one we will be focusing on [IRF].
-
+A common practice in studying history is ‘Periodization’. The concept behind it is that dividing historical periods in well defined time frames, allows us to refer more easily to a period of time and allows us to better understand the connections that current events might have to events which happened in the past [IAT14]. An example of such periodization, which uses a timeframe, events linked to that specific timeframe and the idea that time periods can be linked using the events happening in that time frame, is the periodization of Industrial Revolutions.
+The Industrial Revolutions, which have been divided in four different timeframes, are a  perfect example of the practice of Periodization put to use. Having four different time periods being referred to as a period of revolution in industrial processes, highlights connections in the events happening between each one of those time frames in history.
+The connection between each of the Industrial Revolutions is that in each one of these time periods, introductions of new revolutionary technologies occured in the manufacturing space. The First Industrial Revolution, which started in the 18th century, is characterized by the introduction of the first machinery which substituted hand production methods for some of the tasks. The Second Industrial Revolution, usually linked to World War I, saw the widespread adoption of technological systems such as telegraphs and railroad networks amongst other introductions such as assembly lines. The Third Industrial Revolution, which began in the 70’s saw the introduction of the first automated tasks and the first computers introduced in the assembly line. The Fourth Industrial Revolution begins in the 2010s, is the revolution we are currently living, and the one we will be focusing on [IRF].
 
 \section{The Industry 4.0 movement}
-The Fourth Industrial Revolution, commonly known as Industry 4.0 is characterized as the time period in history where implementation of information and communication technologies is taking over traditional manufacturing practices [IRF].
-The origins of the term Industry 4.0 are divided in two different camps. For some the first mention of Industry 4.0 comes from Germany, where in 2011 the German government promoted a project to aid the computerization of manufacturing. A project was then shown to the public at the Hannover Fair, where the Working Group on Industry 4.0 presented a set of implementation recommendations to the German government. Another supposed origin of the term Industry 4.0 comes from North America. Not necessarily called Industry 4.0, the term used was Industrial Internet, and it was used by the General Electric company in late 2012. The Industrial Internet Consortium was founded to accelerate the development, adoption and widespread use of interconnected machines, devices and intelligent analytics. The consortium was later rebranded in August 2021 as Industry IoT Consortium, moving it’s main goal to delivering business value to industry, organizations, and society by accelerating adoption of trustworthy IoT technologies. It is worth mentioning that the aim of the consortium is not to sell products or services. [ICB17]
-Regardless of the name, Industry 4.0 design principles can be grouped in four macro categories:
-Allowing for intercommunication between machines, sensors and devices, so that they always know each other’s status.
-The ability to collect a lot more diagnostic data on each machine, so as to further analyze and optimize current processes.
-Increased automation of tasks. With the inclusion of more diagnostic data being captured, the system might be able to fix itself in case of malfunctions by recognizing faulty behaviour, without the need for human intervention.
-Systems assisting humans in decision-making and the ability of systems to perform the less safe tasks. Since the systems collect more diagnostic data, they can also perform statistical analysis on the data to optimize decisions.
-The components of the Fourth Industrial Revolution are many,
-Thus, the main components of the Fourth Industrial Revolution can be summarized onto four main categories: Cyber-physical systems, Internet of Things, Cognitive computing and on-demand availability of computer system resources. [HDI17]
+The Fourth Industrial Revolution, now commonly known as Industry 4.0 is characterized as the time period in history where implementation of information and communication technologies is taking over traditional manufacturing practices. While the last two Industrial Revolutions both heavily involve the introduction of computers in the manufacturing space, they are differentiated by the fact that in the Fourth Industrial Revolution, the interaction between humans and technology is much more closely knit, leading to one unified network, and thus to the creation of “cyber-physical production systems” [IRF].
+As mentioned earlier, the Fourth Industrial Revolution is often referred to as the Industry 4.0 movement. The terminology comes from Germany, first seen in 2011, the term ‘Industrie 4.0’ was used by Henning Kagermann, Wolf-Dieter Lukas and Wolfgang Wahlster, in a paper called “Industrie 4.0: Mit dem Internet der Dinge auf dem Weg zur 4 industriellen Revolution”, which translates to “Industry 4.0: Internet of Things on the Road to the Fourth Industrial Revolution”. In this paper, which was presented at the Hannover Fair, they presented a set of investments to the German government going from infrastructure and even touching public schools, investments which were meant to propel German manufacturing back to a state of dominance in the global economy [I4M11].
+Germany definitely wasn’t the only country that realized a shift in manufacturing practices was needed to keep up with the demands of the market. For example, also in North America another project was initialized to modernize manufacturing technologies. Not necessarily called Industry 4.0, the term used was Industrial Internet, and it was used by the General Electric company in late 2012. The term was used in the foundation of the Industrial Internet Consortium. The consortium is open to any company, as it was founded to accelerate the development, adoption and widespread use of interconnected machines, devices and intelligent analytics. The consortium was later rebranded in August 2021 as Industry IoT Consortium, moving it’s main goal to delivering business value to industry, organizations, and society by accelerating adoption of trustworthy IoT technologies. It is worth mentioning that the aim of the consortium is not to sell products or services but to drive progress and to help members get the best return on their IoT investments [ICB17].
+Industry 4.0 thus is a very recent concept, therefore it has different interpretations based on the needs of the manufacturing industry of each nation. There have been attempts however at trying to standardize what being an Industry 4.0 compliant technology means. An example of one of the most cited attempts has been written by Mario Hermann, Tobias Pentek and Boris Otto in a Hawaii International Conference on System Sciences (HICSS) research paper. In this paper, they divided Industry 4.0 principles into four main categories:
 
-\section{Typical use cases}
-\section{Industrial IoT and the cybersecurity problem}
+\begin{itemize}
+    \item interconnection, allowing machinery, sensors and other devices to be connected with each other, and to be connected with the people monitoring them;
+    \item information transparency, thus the ability to collect a lot more diagnostic data on each machine, so as to further analyze and optimize current processes;
+    \item decentralized decisions which leads to increased automation of tasks. With the inclusion of more diagnostic data being captured, it is easier to optimize tasks even from outside of the production facilities;
+    \item technical assistance, with systems assisting humans in decision-making and the ability of systems to perform tasks that are less safe for humans. Since the systems collect more diagnostic data, they could also be more aware of issues, helping users solve them or even automatically solve tasks without need for human intervention [DPI16].
+\end{itemize}
+
+These four main design principles most likely derive from looking at the development and improvement of a series of enabling technologies for Industry 4.0. The definition of enabling technology is: ”an invention or innovation that can be applied to drive radical change in the capabilities of a user or culture”. Thus the development that those technologies received in recent times helped the widespread application in the manufacturing space. These enabling technologies have been identified by the Boston Consulting Group in 2015 and have been divided as follows:
+
+\begin{itemize}
+    \item advanced manufacturing solutions thanks to robots becoming autonomous, flexible and cooperative;
+    \item additive manufacturing, the classic example of which is 3D printing, enabling companies to create customized products for their manufacturing line;
+    \item augmented reality systems, which have a variety of uses in the manufacturing space. For example easily being able to place virtual machines in a real environment is a move that if done before building and placing new machinery could dramatically cut costs;
+    \item simulations in all stages of production, useful to mirror the real world thus increasing quality, decreasing costs and making production more efficient;
+    \item improved horizontal and vertical system integration, meaning that all departments of a business are much more closely linked thanks to data being shared;
+    \item industrial internet of things, field devices communicate and interact with more centralized controllers, thus devices, which didn’t have internet, now have it;
+    \item the cloud, moving machine data and functionality to the cloud is achieving levels closer to local storage and computability;
+    \item cyber security, due to the more common interconnection of devices, protecting critical industrial systems is a big focus of current manufacturing systems;
+    \item big data analytics. Analytics based on large data sets optimizes production quality, saves energy and improves equipment service [BCG15].
+\end{itemize}
+
+The type of products, services and machines which are compliant with the guidelines described above can be further grouped in these macro-categories: Cyber-physical systems, Internet of Things devices or platforms, Cognitive computing applications and on-demand availability of computer system resources [HDI17].
+In this thesis, we will be analyzing further the Internet of Things macro-category. We will be looking at where Industrial Internet of Things as a field comes from, it’s widespread implementation of its technologies in various fields of manufacturing, and some of the limitations which may arise with its inherent flaws.
+
+\section{Industrial Internet of Things}
+Industrial Internet of Things is an obvious ramification of the more well known idea of Internet of Things. As with Industry 4.0, origins of the term Internet of Things are many, the most probable of which is credited to Kevin Ashton in 1999. He used the term in a presentation for Procter and Gamble, introducing to them the idea of adding the then new technology of RFID in the supply chain. Ashton’s idea of IoT is although slightly different from what IoT is perceived to be nowadays, Ashton thought that people often went unnoticed in the idea of a network of interconnected devices, but they were actually vital as they are the main provider of information. However, if computers are empowered with ways of gathering information about themselves and their environment, they can capture more information than humans, without human error, and can analyze the captured data. This combination of factors lets us delegate diagnostic work to computers thus allowing humans to concentrate on different parts of the manufacturing process [RFI09].
+The evolution of Internet of Things, as it’s more commonly known today, has standardized a new definition of the concept, more inclined towards the idea of embedded objects with sensors, processing ability, software and other technologies that allow for them to connect and interchange data between devices via the internet, also giving internet connectivity to devices that in the past were unable to do so [WII21]. The peculiarity behind the modern concept of IoT, is that while the original concept stemmed from the industrial space, nowadays IoT has been massively applied in the consumer electronics space so much so, that the definition of IoT itself changed. Applications of IoT concepts are now common in household appliances, this can be seen from the fact that fridges, ovens, dishwashers, coffee machines, vacuum cleaners and light bulbs nowadays are all connected to the internet, they are all integrated to voice assistants, they all have their own mobile applications for monitoring and controlling, slowly becoming the norm in modern households.
+While IoT is now common in households, we want our focus to stay on the sector that is now segmented by the name Industrial Internet of Things. Historically, control and automation of manufacturing processes was first introduced with the use of Programmable Logic Controllers (PLC) solutions. PLCs, invented by Dick Morey in 1968, are basic microprocessors built with the idea of being long lasting and easily programmable to allow multiple input/output arrangements in real time. The possibility of making the machine work differently based on their input is what makes it the first example of automation in industrial processes [MAM08].
+The most obvious evolution of PLCs can be seen in Distributed Control Systems (DCSs). First introduced by Honeywell and Yokogawa in 1975, they improve on PLCs since they allow for automation and control over bigger sets of machinery, distributing control across the whole plant rather than being centralized thus removing the idea of single point of failure. The concept of having a control room with information about the plant, also evolved thanks to the adoption of DCSs, as the technology allows for high levels of plant status and production monitoring. The added set of functionalities brought the drawback that DCSs are slightly harder to program, and slightly less reactive when given an input, since further processing of information is involved. These two aforementioned solutions are not the only examples of industrial automation which came before adoption of IIoT solutions. After the advent of PLCs and DCSs, a variety of similar control systems for factories such as SCADA also gained in popularity over time. SCADA, the acronym of Supervisory Control And Data Acquisition, is a system of software and hardware components built specifically for monitoring and automation of industrial machinery. SCADA systems are often employed in mission critical contexts, meaning areas where risk of failure could lead to extremely dangerous consequences such as gas and oil distribution. All these various control systems differentiate from one to the other although still offering a set of similar features, furthermore they are mostly closed solutions to one single manufacturer. This in turn means that the invention of a more modern automation solution never fully makes the application of an older solution obsolete, even at times integrating elements of the older solution in the newer solution [EIC13].
+Focusing back on Industrial IoT, its solutions can be seen as an evolution, and not as another variation on DCS solutions. This differentiation is done because of a series of enabling technologies, the implementation of which allows for clearer nomenclature. Initially the advancements in cloud computing brought massive flexibility to monitoring manufacturing processes remotely, since it is possible to diagnose issues without being on site, making the technicians jobs much easier. The general advancement in hardware, due to the reduced cost and size of microcontrollers and microprocessors, leads generally to the technology being more applicable in manufacturing scenarios compared to proprietary devices. Often, these microcontrollers and microprocessors, can even be off the shelf products, fully programmable to one’s needs and with open source support widely available. Another advancement which brought to standardization of IIoT solutions are the new and well refined standards for wireless communication, both via the web and via solutions such as Bluetooth Low Energy for short-range communications. On the web side, publish/subscribe protocols such as MQTT or request/response RESTful protocols are both valid alternatives based on the use-case scenario to exchange information between machinery.
+Having talked about single advancements in IoT and thus IIoT technologies, it is now possible to identify what an IIoT solution is and the various building blocks that create an IIoT solution. The building blocks of an IIoT solution are also defined as the links in a value chain. The value chain illustrates how the different building blocks operate, and what each block contributes to the overall experience of using an IIoT solution. An illustration of the IIoT value chain can be seen in Figure 1.1, where we can see the building blocks listed in the following way:
+
+\begin{itemize}
+    \item data capturing module. The data can be either sensor or actuator data, or data caught from a software about machinery;
+    \item preprocessing and pre analyzing module. Thanks to edge computing, a modern distributed computing approach in which bandwidth usage is massively cut, the data is initially categorized so as to make later analysis more relevant;
+    \item processing data module, where the caught data is actually processed, and where automation commands occur;
+    \item data analysis module, where machine learning, artificial intelligence, and big data techniques are used to analyze the data, so as to further improve data processing and data capturing algorithms.
+\end{itemize}
+
+As we can also see from Figure 1.1, these modules are also built to interact and communicate the results with each other [IVC20]. The interoperability of modules in IIoT solutions is one of it’s main selling points, however this interoperability is one that also raises the most common concern with IIoT solutions, how secure is a system with openly interchangeable pieces?
+
+\section{Cybersecurity and Industrial IoT}
+In cybersecurity there’s a saying: “Fast, secure, cheap, pick two“. This saying is related to the self-explanatory idea that it is often difficult for these three features to coexist in computer science based solutions. This triangle of options is often true because of a series of factors, the most common of which is that the standards on which the internet relies on, were created in a time where cybersecurity wasn’t a vital part of design, but only an afterthought. Since Industrial IoT solutions can also be considered computer science solutions, the concept stands true also in this scenario. This raises the obvious issue of which of the three is better to cut, and the answer is that it depends. For example, in the case of communications where no sensible data is shared, it is often considered ok for the communication to be less secure, on the other hand sensible data can in some cases be shared without hurry, so speed is sacrificed. Convenience in communication is often lost in the case of devices from different manufacturers communicating between different blocks, while it is true that Industrial IoT allows for flexibility between layers as protocols are standard, the added flexibility is not always free, thus sacrificing inexpensiveness.
+A different cybersecurity issue altogether, not strictly related to the Industrial IoT space but still worth mentioning, is the issue of well known manufacturers that have never built computer science based solutions. It is an issue that is much more common in the IoT space for households in house appliances, where said manufacturers are usually not educated on the concept of cybersecurity itself, often completely omitting its principles when creating hardware or software for IoT.
+While the security concerns might deter companies from investing in Industrial IoT solutions, there are hardware solutions easily applicable to IIoT solutions that are often used, and that haven’t been mentioned yet. The one we will be talking about is a specific hardware solution that can help with making data transfer secure, it does so by making data transfer physically unilateral, securing certain pieces in a closed network, with those pieces outputting data to the end user. This hardware is commonly called a data diode, and as mentioned earlier, it is used as an unilateral single point of communication to send data from an isolated network towards a public network.
+Data diodes, as we can see from the diagram in Figure 1.2, are able to communicate unilaterally thanks to physical limitations in the construction of the circuit itself, that allows for current to only flow one way. This in turn leads to those pieces of the network being completely erasing any points of entry in the network.
+There are similar software-side solutions to create unidirectional communication in protected networks, the most common of which is the use of firewalls, the main difference however between firewalls and data diodes is the level at which they operate. Taking into account the ISO/OSI stack, the conceptual standard for packet communications, firewalls most commonly operate around the network and transport layers, where TCP/IP operates. This means that attacks on the lower layers of the protocol (physical and data link) there are still vulnerabilities which could be attacked, layers which are protected by data diodes.
+Given their security oriented nature, the main application of data diodes is in mission critical situations, where a part of the appliances has to be secured, but information about those appliances is still needed. Example use cases can be oil production plants, which are offshore, the status of which has to be monitored, and it is obviously not safe to connect directly to those plants as being on an open network could lead to attacks. Similarly air traffic and railway traffic monitoring appliances could be placed all over paths of interest.
+Industrial grade data diodes however have a big drawback, which is their cost. A single diode device starts from 6000 dollars because of the complex circuits made for unidirectionality to work. Furthermore in industrial applications often a diode needs to be installed for each single piece of machinery, the cost of which can get very expensive. Luckily there are cheaper alternatives to industrial grade data diodes which do a similar job for most use case scenarios. For example a cheaper diode could be achieved using serial communication via an RS-232 cable. This works because the RS-232 standard for communication uses a pin to send data, and the other to receive data, unilateral communication thus could be achieved by cutting the receiving pin from the side that is sending the data, and similarly the transmitting pin could be cut from the side that receives the data. While this solution obviously does not function as smoothly as an industrially built diode, it will work for most applications.
+Another issue with data diodes is that malfunctions in the private network could be difficult to signal to the end user. If the diode itself malfunctions for example, data will be lost and the machine itself has no way to diagnose the problem or to send a warning message. This problem could be solved with bidirectional communication, for example having the unprotected side ping the data diode periodically so as to check its status. However diodes are an unilateral communication device, so this procedure is not immediate. There is a way to make bidirectional communication possible, within a diode environment it is usually done by placing two data diodes, one from the protected network to the unprotected network (as seen in Figure 1.2), and another diode placed sending data the opposite way. In this bidirectional model data transfers can only be started from the protected side however, so as to take software precautions before starting communication [OWL18].
+
+
+
 
 \chapter{Alstom group and their problem}
 
@@ -338,5 +433,6 @@ Initially I'll install Zabbix on the private Raspberry Pi for testing purposes, 
 \lstinputlisting[language=Python, caption=sndfile0.2.py]{./2FileTransfer/sndfile.py}
 \lstinputlisting[language=Python, caption=rcvfile0.2.py]{./2FileTransfer/rcvfile.py}
 
+\chapter{Ringraziamenti}
 
 \end{document} 
