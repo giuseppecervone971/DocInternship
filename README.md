@@ -25,5 +25,5 @@ The repository currently is structed in two main folders, one is the installatio
 
 ### To do list for Documentation:
 - [x] Write installation guide
-- [ ] Write thesis
+- [X] Write thesis
 
